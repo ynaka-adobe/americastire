@@ -1,0 +1,22 @@
+:root {
+  --heading-font-family: "Lato", sans-serif;
+  --body-font-family: "Lato", sans-serif;
+  --background-color: #fff;
+  --text-color: #333;
+  --link-color: #333;
+  --link-hover-color: #000;
+  --section-padding: 32px 16px;
+  --nav-height: 112px;
+  --heading-size-xxl: 24px;
+  --heading-size-xl: 20px;
+  --heading-size-l: 16.2px;
+  --heading-size-m: 18.4px;
+  --heading-size-s: 16px;
+  --heading-size-xs: 14px;
+  --color-light: #f4f4f4;
+  --color-dark: #333;
+  --color-primary: #c00;
+  --color-primary-hover: #a00;
+  --color-success: #397b23;
+  --border-radius: 4px;
+}

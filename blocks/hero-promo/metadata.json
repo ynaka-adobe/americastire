@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-promo",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-05-21T18:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.americastire.com",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "colorful",
+    "density": "compact",
+    "purpose": "promotional-banner",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "full-width clickable image banner",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage promotional banners",
+      "seasonal sale banners",
+      "full-width image links"
+    ],
+    "notSuitableFor": [
+      "text-heavy hero sections",
+      "hero with overlay text",
+      "hero with multiple CTAs"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-05-21T18:55:00.000Z"
+  }
+}

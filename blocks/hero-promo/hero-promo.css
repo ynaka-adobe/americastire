@@ -1,0 +1,45 @@
+/* Block: hero-promo -- full-width clickable promotional banner image */
+
+main .section > .hero-promo-wrapper {
+  max-width: unset;
+  padding: 0;
+  margin: 0 -16px;
+}
+
+.hero-promo {
+  background-color: rgb(234 234 234);
+  padding: 0;
+  margin: 0;
+}
+
+.hero-promo > div {
+  padding: 0;
+  margin: 0;
+}
+
+.hero-promo > div > div {
+  padding: 0;
+  margin: 0;
+}
+
+.hero-promo p {
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
+}
+
+.hero-promo a {
+  display: block;
+  line-height: 0;
+}
+
+.hero-promo picture {
+  display: block;
+}
+
+.hero-promo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}

@@ -1,0 +1,40 @@
+{
+  "variantName": "accordion-faq",
+  "baseBlock": "accordion",
+  "version": "1.0.0",
+  "created": "2026-05-21T18:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.americastire.com",
+    "originPage": "homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "faq",
+    "imagePattern": "noimg"
+  },
+  "contentPattern": {
+    "structure": "question heading + answer paragraph with links",
+    "buttonCount": 0,
+    "imageCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "FAQ sections",
+      "Q&A pages",
+      "help/support content",
+      "product question sections"
+    ],
+    "notSuitableFor": [
+      "image-heavy accordions",
+      "tabbed content (use tabs instead)",
+      "single expandable item"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-05-21T18:55:00.000Z"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "variantName": "columns-split",
+  "baseBlock": "columns",
+  "version": "1.0.0",
+  "created": "2026-05-21T18:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.americastire.com",
+    "originPage": "homepage",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "spacious",
+    "purpose": "dual-cta",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "icon + text + CTA | separator | icon + text + CTA",
+    "buttonCount": 2,
+    "imageCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "split-entry dual CTA sections",
+      "side-by-side content panels",
+      "financing comparison layouts",
+      "feature comparison sections"
+    ],
+    "notSuitableFor": [
+      "single column content",
+      "image galleries",
+      "complex multi-row layouts"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-05-21T18:55:00.000Z"
+  }
+}

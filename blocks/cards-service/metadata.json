@@ -1,0 +1,41 @@
+{
+  "variantName": "cards-service",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-05-21T18:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.americastire.com",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "service-cards",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + heading + description + CTA link",
+    "buttonCount": 1,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "service listing pages",
+      "article listing grids",
+      "category browsing pages",
+      "feature showcase sections",
+      "brand logo grids"
+    ],
+    "notSuitableFor": [
+      "single featured content",
+      "text-only card layouts",
+      "complex interactive cards"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-05-21T18:55:00.000Z"
+  }
+}

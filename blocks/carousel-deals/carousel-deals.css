@@ -1,0 +1,290 @@
+/* Block: carousel-deals -- promotional offers card carousel */
+
+/* Extracted values from source: discounttire.com */
+
+.carousel-deals {
+  color: var(--text-color);
+  position: relative;
+}
+
+.carousel-deals .carousel-deals-slides-container {
+  position: relative;
+  padding: 0 50px;
+}
+
+.carousel-deals .carousel-deals-slides,
+.carousel-deals .carousel-deals-slide-indicators {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.carousel-deals .carousel-deals-slides {
+  display: flex;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  overflow: auto hidden;
+  gap: 10px;
+}
+
+.carousel-deals .carousel-deals-slides::-webkit-scrollbar {
+  display: none;
+}
+
+/* Individual slide card */
+.carousel-deals .carousel-deals-slide {
+  flex: 0 0 300px;
+  min-width: 300px;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgb(221 221 223);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  min-height: auto;
+  height: auto;
+}
+
+.carousel-deals .carousel-deals-slide[aria-hidden="true"] {
+  visibility: visible;
+}
+
+/* Image cell */
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-image {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
+}
+
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-image picture {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 100px;
+}
+
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-image picture > img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-image p {
+  margin: 0;
+}
+
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-image a {
+  display: block;
+  height: 100px;
+}
+
+/* Content cell */
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-content {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  flex: 1;
+  z-index: 1;
+  position: relative;
+  margin: 0;
+  background-color: transparent;
+  color: var(--text-color);
+  width: auto;
+}
+
+/* Description text */
+.carousel-deals .carousel-deals-slide .carousel-deals-slide-content p {
+  font-size: 16px;
+  font-family: var(--body-font-family);
+  font-weight: 900;
+  line-height: 20px;
+  color: rgb(18 18 19);
+  margin: 0 0 5px;
+}
+
+/* Expiration date (in <em> tags) */
+.carousel-deals .carousel-deals-slide-content p em {
+  font-style: normal;
+  font-size: 15px;
+  font-weight: 900;
+  color: rgb(152 152 157);
+  line-height: 20px;
+}
+
+/* Button container reset */
+.carousel-deals .button-container {
+  display: block;
+  margin-top: auto;
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/* Primary CTA button ("See Products" / "Get Details") */
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content p:nth-child(3) a:any-link,
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content .button-container:first-of-type a:any-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primary);
+  color: #fff;
+  padding: 10px 16px;
+  border: 2px solid var(--color-primary);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: 24px;
+  width: 100%;
+  min-height: 48px;
+  box-sizing: border-box;
+  margin-top: 12px;
+}
+
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content p:nth-child(3) a:any-link:hover,
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content .button-container:first-of-type a:any-link:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Secondary link ("See Details") */
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content p:nth-child(4) a:any-link,
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content .button-container:nth-of-type(2) a:any-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  color: rgb(7 87 192);
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: none;
+  line-height: 24px;
+  margin-top: 10px;
+}
+
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content p:nth-child(4) a:any-link:hover,
+main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content .button-container:nth-of-type(2) a:any-link:hover {
+  color: rgb(5 60 135);
+  text-decoration: underline;
+}
+
+/* stylelint-enable no-descending-specificity */
+
+/* Dot indicators */
+.carousel-deals .carousel-deals-slide-indicators {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 0;
+  line-height: 0;
+}
+
+.carousel-deals .carousel-deals-slide-indicators .carousel-deals-slide-indicator button {
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgb(152 152 157);
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.carousel-deals .carousel-deals-slide-indicators .carousel-deals-slide-indicator button:disabled,
+.carousel-deals .carousel-deals-slide-indicators .carousel-deals-slide-indicator button:hover,
+.carousel-deals .carousel-deals-slide-indicators .carousel-deals-slide-indicator button:focus-visible {
+  background-color: var(--text-color);
+  border-color: var(--text-color);
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/* Navigation arrow buttons */
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button {
+  position: relative;
+  width: 38px;
+  margin: 0;
+  border-radius: 0;
+  padding: 0;
+  border: none;
+  background-color: rgb(239 239 240);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button:hover,
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button:focus-visible {
+  background-color: rgb(221 221 223);
+}
+
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button::after {
+  display: block;
+  content: '';
+  border: 2px solid rgb(84 84 89);
+  border-bottom: 0;
+  border-left: 0;
+  height: 10px;
+  width: 10px;
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 2px);
+  transform: translate(-50%, -50%) rotate(-135deg);
+}
+
+.carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button.slide-next::after {
+  transform: translate(-50%, -50%) rotate(45deg);
+  left: calc(50% - 2px);
+}
+
+/* Mobile adjustments */
+@media (width < 600px) {
+  .carousel-deals .carousel-deals-slides-container {
+    padding: 0 38px;
+  }
+
+  .carousel-deals .carousel-deals-slide {
+    flex: 0 0 260px;
+    min-width: 260px;
+  }
+
+  .carousel-deals .carousel-deals-slides-container .carousel-deals-navigation-buttons button {
+    width: 32px;
+  }
+}
+
+@media (width >= 900px) {
+  .carousel-deals .carousel-deals-slides-container {
+    padding: 0 50px;
+  }
+
+  .carousel-deals .carousel-deals-slide {
+    flex: 0 0 300px;
+    min-width: 300px;
+  }
+}

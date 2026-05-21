@@ -1,0 +1,39 @@
+{
+  "variantName": "carousel-deals",
+  "baseBlock": "carousel",
+  "version": "1.0.0",
+  "created": "2026-05-21T18:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.americastire.com",
+    "originPage": "homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "promotional-deals",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "image + offer description + expiration + CTA buttons",
+    "buttonCount": 2,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "promotional deal carousels",
+      "seasonal offer slideshows",
+      "product highlight rotators"
+    ],
+    "notSuitableFor": [
+      "image-only galleries",
+      "testimonial carousels",
+      "full-bleed hero carousels"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index"],
+    "reuseCount": 1,
+    "lastUsed": "2026-05-21T18:55:00.000Z"
+  }
+}

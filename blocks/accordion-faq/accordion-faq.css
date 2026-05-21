@@ -1,0 +1,88 @@
+/* Block: accordion-faq -- Discount Tire FAQs accordion */
+
+.accordion-faq {
+  color: var(--text-color);
+  max-width: 920px;
+}
+
+/* Separator between items */
+.accordion-faq details {
+  border: none;
+  border-bottom: 1px solid rgb(204 204 204);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.accordion-faq details + details {
+  margin-top: 0;
+}
+
+/* Summary / question row */
+.accordion-faq details summary {
+  position: relative;
+  padding: 17px 30px 15px 0;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color 0.2s;
+}
+
+.accordion-faq details summary::-webkit-details-marker {
+  display: none;
+}
+
+.accordion-faq details summary::marker {
+  display: none;
+  content: '';
+}
+
+/* Chevron indicator - SVG arrow matching source */
+.accordion-faq details summary::after {
+  content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'%3E%3Cpath fill='%23999999' d='m441.9 167.3-19.8-19.8c-4.7-4.7-12.3-4.7-17 0L224 328.2 42.9 147.5c-4.7-4.7-12.3-4.7-17 0L6.1 167.3c-4.7 4.7-4.7 12.3 0 17l209.4 209.4c4.7 4.7 12.3 4.7 17 0l209.4-209.4c4.7-4.7 4.7-12.3 0-17z'/%3E%3C/svg%3E");
+  position: absolute;
+  right: 0;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  transform: translateY(-50%);
+  transition: transform 0.2s ease-out;
+}
+
+.accordion-faq details[open] summary::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+/* H3 inside summary */
+.accordion-faq details summary h3 {
+  font-size: 18px;
+  font-weight: 800;
+  font-family: var(--body-font-family);
+  line-height: 26.1px;
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Answer body */
+.accordion-faq details .accordion-faq-item-body {
+  padding: 8px 0;
+  border-top: 1px solid rgb(238 238 238);
+}
+
+/* Paragraphs in answer */
+.accordion-faq details .accordion-faq-item-body p {
+  font-size: 16px;
+  font-family: var(--body-font-family);
+  line-height: 23.2px;
+  color: var(--text-color);
+  margin: 0 0 16px;
+}
+
+/* Links in answer */
+.accordion-faq details .accordion-faq-item-body a {
+  color: rgb(7 87 192);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.accordion-faq details .accordion-faq-item-body a:hover {
+  text-decoration: underline;
+}

@@ -1,0 +1,31 @@
+{
+  "status": "success",
+  "url": "https://www.americastire.com",
+  "path": "index",
+  "timestamp": "2026-05-21T19:21:45.439Z",
+  "title": "Buy Tires & Wheels Online | Tire Repair & Service | Discount Tire",
+  "template": "homepage",
+  "blocks": [
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "hero-promo",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "cards-service",
+    "carousel-deals",
+    "accordion-faq"
+  ]
+}

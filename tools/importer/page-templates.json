@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://www.americastire.com"
+      ],
+      "description": "America's Tire homepage with hero, tire search, promotions, and brand content",
+      "blocks": [
+        {
+          "name": "columns-split",
+          "instances": [
+            "#synchrony_banner .home-dtcc-promo-container-class",
+            "#split_entry .split-entry",
+            ".hp-financing__container",
+            ".treadwell-layout"
+          ]
+        },
+        {
+          "name": "hero-promo",
+          "instances": [
+            ".home-page__home-hero-container"
+          ]
+        },
+        {
+          "name": "cards-service",
+          "instances": [
+            ".low-price-experience",
+            ".AEM-hp-shopByCategory",
+            ".service-card",
+            ".AEM-hp-shopByBrand",
+            ".featured-content-grid__container"
+          ]
+        },
+        {
+          "name": "carousel-deals",
+          "instances": [
+            ".cms-promotion-carousel__container___3srXI"
+          ]
+        },
+        {
+          "name": "accordion-faq",
+          "instances": [
+            ".faq.parbase .FAQ-content"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Hero Section",
+          "selector": "section.Section1E:first-of-type",
+          "style": null,
+          "blocks": [
+            "columns-split",
+            "hero-promo",
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-2",
+          "name": "Deals Section",
+          "selector": "section.PromoCarouselSection",
+          "style": null,
+          "blocks": [
+            "cards-service",
+            "carousel-deals"
+          ],
+          "defaultContent": [
+            ".heading h1"
+          ]
+        },
+        {
+          "id": "section-3",
+          "name": "Shop by Category",
+          "selector": "section.Section1E:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-4",
+          "name": "Services Heading",
+          "selector": "section.hp_subheader:first-of-type",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "section.hp_subheader:first-of-type h2"
+          ]
+        },
+        {
+          "id": "section-5",
+          "name": "Service Cards",
+          "selector": "section.service-card-container:first-of-type",
+          "style": null,
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-6",
+          "name": "Service CTAs",
+          "selector": "section.hp_generic:nth-of-type(1)",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "section.hp_generic:nth-of-type(1) a"
+          ]
+        },
+        {
+          "id": "section-7",
+          "name": "Shop Tires Your Way",
+          "selector": "section.hp_generic:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-8",
+          "name": "Shop by Brand",
+          "selector": "section.hp_generic:nth-of-type(3)",
+          "style": null,
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-9",
+          "name": "Financing",
+          "selector": "section.Section1E:nth-of-type(3)",
+          "style": "grey",
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-10",
+          "name": "Featured Content",
+          "selector": "section.hp_generic:nth-of-type(4)",
+          "style": null,
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-11",
+          "name": "Learn Heading",
+          "selector": "section.hp_subheader:nth-of-type(2)",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "section.hp_subheader:nth-of-type(2) h2"
+          ]
+        },
+        {
+          "id": "section-12",
+          "name": "Article Cards",
+          "selector": "section.service-card-container:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "cards-service"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-13",
+          "name": "FAQ Section",
+          "selector": "section.Section1E:nth-of-type(4)",
+          "style": null,
+          "blocks": [
+            "accordion-faq"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}
