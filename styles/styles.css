@@ -12,6 +12,10 @@
  * governing permissions and limitations under the License.
  */
 
+html {
+  overflow-x: clip;
+}
+
 :root {
   /* body sizes */
   --body-font-size-m: 16px;

@@ -1,53 +1,81 @@
-/* Block: cards-service -- CSS based on source computed styles */
+/* Block: cards-service — three-up service cards (light panel, green border, dot accent) */
 
-/* Source: .service-card on discounttire.com */
-
-/* Base list reset */
 .cards-service > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 20px;
+  align-items: stretch;
 }
 
-/* Card item */
+/* Card shell */
 .cards-service > ul > li {
+  position: relative;
   display: flex;
-  flex-direction: row;
-  border: 1px solid rgb(204 204 204);
+  flex-direction: column;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 28px 24px 24px;
+  border: 2px solid var(--color-success);
   border-radius: 8px;
   overflow: hidden;
-  background-color: var(--background-color);
-  width: 100%;
+  background-color: var(--color-light);
 }
 
-/* Card image container */
+/* Subtle dot grid — top-right */
+.cards-service > ul > li::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: min(48%, 160px);
+  height: min(38%, 120px);
+  pointer-events: none;
+  opacity: 0.4;
+  background-image: radial-gradient(circle at center, rgb(180 180 180 / 70%) 1px, transparent 1.2px);
+  background-size: 10px 10px;
+  background-repeat: repeat;
+}
+
+/* Icon / illustration area (stacked above copy) */
 .cards-service .cards-service-card-image {
+  position: relative;
+  z-index: 1;
   line-height: 0;
   flex-shrink: 0;
-  width: 105px;
+  width: auto;
+  max-width: 100%;
+  margin: 0 0 16px;
 }
 
 .cards-service .cards-service-card-image picture {
   display: block;
-  height: 100%;
 }
 
-.cards-service > ul > li img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.cards-service > ul > li .cards-service-card-image img {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 88px;
+  height: auto;
+  object-fit: contain;
   border-radius: 0;
 }
 
-/* Card body/text area */
+/* Body / copy */
 .cards-service .cards-service-card-body {
-  padding: 7px 7px 7px 11px;
+  position: relative;
+  z-index: 1;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  flex: 1 1 auto;
+  min-height: 0;
+  justify-content: flex-start;
 }
 
 /* Headings */
@@ -73,14 +101,53 @@
 .cards-service p {
   font-size: 14.4px;
   font-family: var(--body-font-family);
-  line-height: 1.22;
+  line-height: 1.35;
   color: var(--text-color);
-  margin: 0 4px 0 0;
+  margin: 0 0 10px;
 }
 
-/* Links */
+.cards-service p:last-child {
+  margin-bottom: 0;
+}
+
+/* Nested lists (feature bullets) */
+.cards-service .cards-service-card-body ul {
+  list-style: none;
+  margin: 4px 0 12px;
+  padding: 0;
+}
+
+.cards-service .cards-service-card-body ul > li {
+  position: relative;
+  display: block;
+  width: auto;
+  min-width: 0;
+  padding: 0 0 0 22px;
+  margin: 0 0 8px;
+  border: none;
+  border-radius: 0;
+  background: none;
+  overflow: visible;
+}
+
+.cards-service .cards-service-card-body ul > li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  font-size: 13px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: var(--color-success);
+}
+
+.cards-service .cards-service-card-body ul > li:last-child {
+  margin-bottom: 0;
+}
+
+/* Links — reference uses blue CTAs */
 .cards-service a:any-link {
-  color: var(--link-color);
+  color: #1473e6;
   font-size: 14px;
   font-weight: 700;
   text-decoration: none;
@@ -90,16 +157,18 @@
   text-decoration: underline;
 }
 
-/* Button reset -- EDS auto-decorates links as buttons */
+/* Button-styled links from EDS */
 .cards-service .button-container {
   display: inline;
+  margin-top: auto;
+  padding-top: 12px;
 }
 
 .cards-service a.button:any-link {
   background: none;
   border: none;
   border-radius: 0;
-  color: var(--link-color);
+  color: #1473e6;
   font-size: 14px;
   font-weight: 700;
   padding: 0;
@@ -112,25 +181,92 @@
 .cards-service a.button:hover {
   text-decoration: underline;
   background: none;
-  color: var(--link-hover-color);
+  color: #0d5fbf;
 }
 
-/* Tablet layout - 2 columns */
+/* Middle card: centered promo column (typical 3-up layout) */
+.cards-service > ul > li:nth-child(2) {
+  text-align: center;
+}
+
+.cards-service > ul > li:nth-child(2) .cards-service-card-body {
+  align-items: center;
+}
+
+.cards-service > ul > li:nth-child(2) .cards-service-card-image {
+  align-self: center;
+}
+
+.cards-service > ul > li:nth-child(2) p {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 32ch;
+}
+
+/* Tablet — two columns, similar card width */
 @media (width >= 600px) {
   .cards-service > ul {
-    gap: 16px 3%;
+    gap: 20px;
   }
 
   .cards-service > ul > li {
-    flex: 1 1 calc(47% - 16px);
-    max-width: 470px;
+    flex: 1 1 calc(50% - 10px);
+    max-width: calc(50% - 10px);
+    padding: 28px 22px 22px;
+  }
+
+  .cards-service > ul > li:nth-child(2) {
+    text-align: left;
+  }
+
+  .cards-service > ul > li:nth-child(2) .cards-service-card-body {
+    align-items: stretch;
+  }
+
+  .cards-service > ul > li:nth-child(2) .cards-service-card-image {
+    align-self: flex-start;
+  }
+
+  .cards-service > ul > li:nth-child(2) p {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
   }
 }
 
-/* Desktop layout - 3 columns */
+/* Desktop — three equal columns */
 @media (width >= 1024px) {
+  .cards-service > ul {
+    flex-wrap: nowrap;
+    gap: 24px;
+  }
+
   .cards-service > ul > li {
-    flex: 1 1 calc(30% - 16px);
-    max-width: 400px;
+    flex: 1 1 0;
+    max-width: none;
+    min-height: 320px;
+    padding: 32px 28px 28px;
+  }
+
+  .cards-service > ul > li:nth-child(2) {
+    text-align: center;
+  }
+
+  .cards-service > ul > li:nth-child(2) .cards-service-card-body {
+    align-items: center;
+  }
+
+  .cards-service > ul > li:nth-child(2) .cards-service-card-image {
+    align-self: center;
+  }
+
+  .cards-service > ul > li:nth-child(2) p {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 36ch;
+  }
+
+  .cards-service > ul > li .cards-service-card-image img {
+    max-height: 100px;
   }
 }

@@ -1,5 +1,13 @@
 /* Block: columns-split */
 
+/* Full-bleed band inside section (same pattern as alert-wrapper; do not negative-margin the section — it overflows the viewport) */
+main .section > .columns-split-wrapper:has(.columns-split.columns-split-2-cols) {
+  max-width: unset;
+  padding: 0;
+  margin: 0 -16px;
+  background-color: #f4f4f4;
+}
+
 .columns-split {
   color: var(--text-color);
 }
@@ -82,7 +90,8 @@ main .columns-split.columns-split-1-cols .button-container {
 
 /* Two-column split panel layout (2-cols) */
 .columns-split.columns-split-2-cols {
-  padding: 32px 0 13px;
+  background-color: #f4f4f4;
+  padding: 32px 0;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -143,7 +152,9 @@ main .columns-split.columns-split-2-cols a.button:any-link {
   font-weight: 900;
   text-transform: uppercase;
   text-decoration: none;
-  width: 100%;
+  box-sizing: border-box;
+  width: 343px;
+  max-width: 100%;
   height: 48px;
   line-height: 24px;
   white-space: nowrap;
@@ -157,8 +168,9 @@ main .columns-split.columns-split-2-cols a.button:hover {
 
 main .columns-split.columns-split-2-cols .button-container {
   display: block;
-  width: 100%;
-  margin: 0;
+  width: 343px;
+  max-width: 100%;
+  margin: 0 auto;
 }
 
 /* OR divider */
@@ -182,26 +194,33 @@ main .columns-split.columns-split-2-cols .button-container {
   background-color: rgb(117 117 124);
 }
 
-/* Desktop layout for 2-col */
+/* Desktop layout for 2-col — narrow columns, centered cluster, tall OR rule */
 @media (width >= 900px) {
   .columns-split.columns-split-2-cols > div {
     flex-direction: row;
     align-items: stretch;
-    justify-content: space-between;
-    gap: 0;
+    justify-content: center;
+    gap: clamp(16px, 3vw, 40px);
+    width: 100%;
+    max-width: min(960px, 100%);
+    margin-inline: auto;
+    padding-inline: 8px;
+    box-sizing: border-box;
   }
 
   .columns-split.columns-split-2-cols > div > div {
-    flex: 1;
+    flex: 0 1 343px;
+    max-width: min(343px, calc((100% - 80px) / 2));
+    width: 100%;
     justify-content: space-between;
   }
 
   .columns-split.columns-split-2-cols > div > div:first-child .button-container {
-    padding-right: 8px;
+    padding-right: 0;
   }
 
   .columns-split.columns-split-2-cols > div > div:last-child .button-container {
-    padding-left: 8px;
+    padding-left: 0;
   }
 
   /* OR divider - vertical on desktop */
@@ -211,16 +230,19 @@ main .columns-split.columns-split-2-cols .button-container {
     width: 24px;
     flex: 0 0 auto;
     align-self: stretch;
+    justify-content: flex-start;
+    min-height: 0;
   }
 
   .columns-split .columns-split-divider::before {
     width: 0.5px;
-    height: 19.5px;
+    height: 40px;
     flex: 0 0 auto;
   }
 
   .columns-split .columns-split-divider::after {
     width: 0.5px;
-    flex: 1;
+    flex: 1 1 auto;
+    min-height: 72px;
   }
 }

@@ -368,6 +368,8 @@ header .nav-search-flyout {
   gap: 10px;
   width: min(520px, calc(100vw - 80px));
   max-width: calc(100vw - 80px);
+  width: min(520px, calc(100dvw - 80px));
+  max-width: calc(100dvw - 80px);
   padding: 10px 12px;
   background-color: var(--background-color);
   border: 1px solid #e0e0e0;
