@@ -1,0 +1,87 @@
+/* Block: alert — thin full-bleed strip (icon + message + text link) */
+
+main .section > .alert-wrapper {
+  max-width: unset;
+  padding: 0;
+  margin: 0 -16px;
+}
+
+.alert {
+  background-color: #111;
+  color: #fff;
+  padding: 10px 24px;
+  margin: 0;
+}
+
+.alert > div {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.alert > div > div {
+  padding: 0;
+  margin: 0;
+}
+
+.alert > div > div:last-child {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  gap: 4px 12px;
+}
+
+.alert > div > div:first-child picture {
+  display: block;
+  line-height: 0;
+}
+
+.alert > div > div:first-child img {
+  width: 47px;
+  height: auto;
+  max-width: none;
+  display: block;
+}
+
+.alert p {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #fff;
+  font-family: var(--body-font-family);
+}
+
+.alert p strong {
+  font-weight: 900;
+}
+
+.alert p em strong {
+  font-style: italic;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .alert a:any-link {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  display: inline;
+  white-space: nowrap;
+  line-height: inherit;
+}
+
+.alert .button-container {
+  display: inline;
+  margin: 0;
+}

@@ -1,0 +1,34 @@
+{
+  "variantName": "alert",
+  "baseBlock": "alert",
+  "version": "1.0.0",
+  "created": "2026-05-21T00:00:00.000Z",
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "compact",
+    "purpose": "site-wide-alert-or-promo-strip",
+    "imagePattern": "small-icon"
+  },
+  "contentPattern": {
+    "structure": "One row, two cells: icon picture | promo copy (richtext) + optional text CTA in button row",
+    "buttonCount": 0,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "credit-card or legal promo strips",
+      "thin dismissible-style announcements",
+      "centered one-line messaging under the header"
+    ],
+    "notSuitableFor": [
+      "multi-paragraph articles",
+      "large hero imagery",
+      "forms or multi-field content"
+    ]
+  },
+  "usage": {
+    "pagesUsing": [],
+    "reuseCount": 0,
+    "lastUsed": "2026-05-21T00:00:00.000Z"
+  }
+}

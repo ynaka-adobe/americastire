@@ -79,6 +79,45 @@
     ]
   },
   {
+    "id": "alert",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "iconImage",
+        "label": "Icon image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "iconAlt",
+        "label": "Icon alt text",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "message",
+        "label": "Message"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaUrl",
+        "label": "Link URL",
+        "value": "#"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "Link label",
+        "value": "Learn more."
+      }
+    ]
+  },
+  {
     "id": "card",
     "fields": [
       {

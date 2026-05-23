@@ -53,8 +53,7 @@ main .section > .hero-promo-wrapper {
 
 .hero-promo.black-thin > div {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
   justify-content: center;
   gap: 12px;
@@ -69,11 +68,9 @@ main .section > .hero-promo-wrapper {
 
 .hero-promo.black-thin > div > div:last-child {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
-  column-gap: 12px;
-  row-gap: 4px;
+  gap: 4px 12px;
 }
 
 .hero-promo.black-thin > div > div:first-child picture {
@@ -108,8 +105,7 @@ main .section > .hero-promo-wrapper {
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-main .hero-promo.black-thin a.button:any-link,
-main .hero-promo.black-thin .button-container a:any-link {
+main .hero-promo.black-thin a:any-link {
   color: #fff;
   text-decoration: underline;
   font-weight: 700;
@@ -120,14 +116,10 @@ main .hero-promo.black-thin .button-container a:any-link {
   font-size: 14px;
   display: inline;
   white-space: nowrap;
+  line-height: inherit;
 }
 
 .hero-promo.black-thin .button-container {
   display: inline;
   margin: 0;
-}
-
-.hero-promo.black-thin a {
-  display: inline;
-  line-height: inherit;
 }

@@ -17,13 +17,39 @@ import {
   toCamelCase,
 } from './aem.js';
 
+/** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
+const AUTO_HERO_SKIP_PICTURE = [
+  '.alert', '.hero-promo', '.columns-split', '.cards-service', '.carousel-deals',
+  '.cards', '.columns', '.carousel', '.fragment', '.accordion', '.accordion-faq',
+  '.embed', '.video', '.quote', '.table', '.tabs',
+].join(',');
+
+/**
+ * First <picture> in main before h1, not inside a known block (e.g. alert strip).
+ * @param {Element} main
+ * @param {Element} h1
+ * @returns {HTMLPictureElement|null}
+ */
+function findAutoHeroPicture(main, h1) {
+  const pics = main.querySelectorAll('picture');
+  for (let i = 0; i < pics.length; i += 1) {
+    const pic = pics[i];
+    // eslint-disable-next-line no-bitwise
+    const precedes = (h1.compareDocumentPosition(pic) & Node.DOCUMENT_POSITION_PRECEDING) !== 0;
+    if (precedes && !pic.closest(AUTO_HERO_SKIP_PICTURE)) {
+      return pic;
+    }
+  }
+  return null;
+}
+
 /**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
+  const picture = h1 ? findAutoHeroPicture(main, h1) : null;
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = document.createElement('div');
