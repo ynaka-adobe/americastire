@@ -19,11 +19,14 @@
 - **Financing**
   - [Credit Card](/financing/credit-card)
   - [Affirm](/financing/affirm)
-- [Find A Store](/store-locator)
 - [Fleet](/fleet)
 - [Deals](/promotions)
 
 ---
 
+- [My Store](/store-locator)
+- [Need help?](/customer-service)
 - [Join/Sign In](/account)
-- [Cart](/cart)
+- [My Vehicle](/vehicles)
+- [Cart: $0.00](/cart)
+- [Search](/search)
