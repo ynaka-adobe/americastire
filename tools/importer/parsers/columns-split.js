@@ -8,7 +8,7 @@
  * Generated: 2026-05-21
  *
  * Handles four instance patterns:
- * 1. Credit card promo banner (.home-dtcc-promo-container-class) - image left, text+link right
+ * 1. Credit card promo banner (.home-dtcc-promo-container-class) - single row (1 col) for dark banner styling
  * 2. Split entry (.split-entry) - two panels with image/description/CTA separated by OR
  * 3. Treadwell layout (.treadwell-layout) - tire guide card left, size search card right
  * 4. Financing container (.hp-financing__container) - two financing option cards side by side
@@ -30,7 +30,8 @@ export default function parse(element, { document }) {
     const link = element.querySelector('.home-dtcc-promo-text-class__link a');
     if (link) textCol.push(link);
 
-    cells.push([imageCol, textCol]);
+    const singleCol = [...imageCol, ...textCol];
+    cells.push([singleCol]);
   }
 
   // Pattern 2: Split entry (Shop Products OR Schedule Service)

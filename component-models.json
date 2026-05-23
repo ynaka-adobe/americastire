@@ -161,6 +161,45 @@
     ]
   },
   {
+    "id": "hero-promo-black-thin",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "iconImage",
+        "label": "Icon image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "iconAlt",
+        "label": "Icon alt text",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "promo",
+        "label": "Promo copy"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaUrl",
+        "label": "Learn more link URL",
+        "value": "#"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ctaText",
+        "label": "Learn more link label",
+        "value": "Learn more."
+      }
+    ]
+  },
+  {
     "id": "hero",
     "fields": [
       {
