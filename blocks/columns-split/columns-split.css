@@ -1,36 +1,99 @@
 /* Block: columns-split */
 
-/* Two side-by-side content panels with OR divider between them */
-
 .columns-split {
   color: var(--text-color);
-  padding: 32px 0 13px;
 }
 
 .columns-split p {
   font-size: 14px;
   font-family: var(--body-font-family);
-  line-height: 20.3px;
-  color: var(--text-color);
-  margin: 4px 0;
+  line-height: 1.4;
+  margin: 0;
 }
 
 .columns-split img {
-  width: 55px;
-  height: 55px;
+  max-width: 100%;
+  height: auto;
   object-fit: contain;
 }
 
-/* Row layout - stacks on mobile */
-.columns-split > div {
+/* Single-row promo banner (1-col: image + text in one cell) */
+.columns-split.columns-split-1-cols {
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 12px 24px;
+}
+
+.columns-split.columns-split-1-cols > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.columns-split.columns-split-1-cols > div > div {
+  display: contents;
+}
+
+.columns-split.columns-split-1-cols img {
+  width: 47px;
+  height: auto;
+}
+
+.columns-split.columns-split-1-cols p {
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.4;
+  display: inline;
+}
+
+.columns-split.columns-split-1-cols p strong {
+  font-weight: 900;
+}
+
+.columns-split.columns-split-1-cols p em strong {
+  font-style: italic;
+  font-weight: 900;
+  font-size: 16px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+main .columns-split.columns-split-1-cols a.button:any-link,
+main .columns-split.columns-split-1-cols a:any-link {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: 700;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  display: inline;
+  white-space: nowrap;
+}
+
+main .columns-split.columns-split-1-cols .button-container {
+  display: inline;
+  margin: 0;
+}
+
+/* Two-column split panel layout (2-cols) */
+.columns-split.columns-split-2-cols {
+  padding: 32px 0 13px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.columns-split.columns-split-2-cols > div {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
 }
 
-/* Panel (cell) layout */
-.columns-split > div > div {
+.columns-split.columns-split-2-cols > div > div {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -38,8 +101,7 @@
   width: 100%;
 }
 
-/* Panel content area (icon + text grouped) */
-.columns-split > div > div > .columns-split-content {
+.columns-split.columns-split-2-cols > div > div > .columns-split-content {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -48,23 +110,28 @@
   flex: 1;
 }
 
-.columns-split > div > div > .columns-split-content .columns-split-text p {
+.columns-split.columns-split-2-cols img {
+  width: 55px;
+  height: 55px;
+}
+
+.columns-split.columns-split-2-cols .columns-split-text p {
   font-size: 14px;
   font-weight: 500;
-  line-height: 20.3px;
+  line-height: 1.4;
   margin: 0;
   text-align: left;
 }
 
-.columns-split > div > div > .columns-split-content .columns-split-text p:first-child {
+.columns-split.columns-split-2-cols .columns-split-text p:first-child {
   font-size: 18px;
   font-weight: 900;
-  line-height: 23.2px;
+  line-height: 1.3;
   margin: 0 0 4px;
 }
 
 /* CTA button styling */
-main .columns-split a.button:any-link {
+main .columns-split.columns-split-2-cols a.button:any-link {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,14 +149,13 @@ main .columns-split a.button:any-link {
   white-space: nowrap;
 }
 
-main .columns-split a.button:hover {
+main .columns-split.columns-split-2-cols a.button:hover {
   background-color: var(--color-primary-hover);
   color: #fff;
   text-decoration: none;
 }
 
-/* Button container reset */
-main .columns-split .button-container {
+main .columns-split.columns-split-2-cols .button-container {
   display: block;
   width: 100%;
   margin: 0;
@@ -116,26 +182,25 @@ main .columns-split .button-container {
   background-color: rgb(117 117 124);
 }
 
-/* Desktop layout */
+/* Desktop layout for 2-col */
 @media (width >= 900px) {
-  .columns-split > div {
+  .columns-split.columns-split-2-cols > div {
     flex-direction: row;
     align-items: stretch;
     justify-content: space-between;
     gap: 0;
   }
 
-  .columns-split > div > div {
+  .columns-split.columns-split-2-cols > div > div {
     flex: 1;
     justify-content: space-between;
   }
 
-  /* Add small gap between buttons via padding on panels */
-  .columns-split > div > div:first-child .button-container {
+  .columns-split.columns-split-2-cols > div > div:first-child .button-container {
     padding-right: 8px;
   }
 
-  .columns-split > div > div:last-child .button-container {
+  .columns-split.columns-split-2-cols > div > div:last-child .button-container {
     padding-left: 8px;
   }
 

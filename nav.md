@@ -25,8 +25,8 @@
 ---
 
 - [My Store](/store-locator)
-- [Need help?](/customer-service)
+- [Need help? 888-458-5988](tel:888-458-5988)
 - [Join/Sign In](/account)
-- [My Vehicle](/vehicles)
-- [Cart: $0.00](/cart)
+- [My Vehicles](/vehicles)
+- [Cart](/cart)
 - [Search](/search)
