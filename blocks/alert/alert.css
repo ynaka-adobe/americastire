@@ -1,5 +1,10 @@
 /* Block: alert — thin full-bleed strip (icon + message + text link) */
 
+/* First alert strip sits under fixed header — drop section top padding so it meets the nav */
+main > .section.alert-container:first-child {
+  padding-top: 0;
+}
+
 main .section > .alert-wrapper {
   max-width: unset;
   padding: 0;
