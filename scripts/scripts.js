@@ -147,6 +147,31 @@ function decorateSections(main) {
 }
 
 /**
+ * "Schedule a Service Appointment" → outlined red button (distinct from other /schedule-appointment links).
+ * @param {Element} main
+ */
+function decorateScheduleServiceAppointmentCTA(main) {
+  const label = 'Schedule a Service Appointment';
+  main.querySelectorAll('a[href*="schedule-appointment"]').forEach((a) => {
+    if (a.textContent.trim() !== label) return;
+    if (a.closest('.schedule-services-ctas')) return;
+    a.classList.add('button', 'button-schedule-service');
+    const p1 = a.parentElement;
+    if (p1?.tagName === 'P' && p1.childElementCount === 1 && p1.firstElementChild === a) {
+      p1.classList.add('button-container');
+    }
+    const p2 = p1?.nextElementSibling;
+    if (p2?.tagName !== 'P') return;
+    const nextLink = p2.querySelector(':scope > a[href*="services"]');
+    if (!nextLink || p2.childElementCount !== 1 || nextLink !== p2.firstElementChild) return;
+    const wrap = document.createElement('div');
+    wrap.className = 'schedule-services-ctas';
+    p1.parentElement.insertBefore(wrap, p1);
+    wrap.append(p1, p2);
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
@@ -157,6 +182,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateScheduleServiceAppointmentCTA(main);
   decorateBlocks(main);
 }
 

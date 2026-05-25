@@ -1,4 +1,4 @@
-/* Block: columns-split */
+/* Block: columns-split — variant `.shop-your-way`: Shop Tires Your Way dual cards (no OR) */
 
 /* Full-bleed band inside section (same pattern as alert-wrapper; do not negative-margin the section — it overflows the viewport) */
 main .section > .columns-split-wrapper:has(.columns-split.columns-split-2-cols) {
@@ -244,5 +244,270 @@ main .columns-split.columns-split-2-cols .button-container {
     width: 0.5px;
     flex: 1 1 auto;
     min-height: 72px;
+  }
+}
+
+/* --- Variant: shop-your-way — Shop Tires Your Way (first card 826×395 desktop; no OR) --- */
+main .section > .columns-split-wrapper:has(.columns-split.columns-split-2-cols.shop-your-way) {
+  margin: 0;
+  padding: 24px 16px 32px;
+  max-width: unset;
+  background-color: #fff;
+}
+
+.columns-split.columns-split-2-cols.shop-your-way {
+  background-color: transparent;
+  padding: 0;
+}
+
+.columns-split.columns-split-2-cols.shop-your-way > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 20px;
+  width: 100%;
+  max-width: min(1320px, 100%);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.columns-split.columns-split-2-cols.shop-your-way > div > div {
+  flex: 1 1 auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background-color: #ebebeb;
+  border: 1px solid rgb(204 204 208);
+  border-radius: 8px;
+  padding: 20px 20px 24px;
+  text-align: left;
+  align-items: stretch;
+}
+
+.columns-split.columns-split-2-cols.shop-your-way > div > div:first-child {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 12px 20px;
+  background-color: #fff;
+}
+
+.columns-split.shop-your-way .columns-split-hero {
+  flex: 0 0 auto;
+  width: min(44%, 240px);
+  max-width: 260px;
+  display: flex;
+  align-items: flex-end;
+  align-self: stretch;
+  margin: auto 0 0;
+}
+
+.columns-split.shop-your-way .columns-split-hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+.columns-split.shop-your-way .columns-split-left-stack {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+@media (width < 600px) {
+  .columns-split.columns-split-2-cols.shop-your-way > div > div:first-child {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .columns-split.shop-your-way .columns-split-hero {
+    width: min(240px, 78%);
+    max-width: 100%;
+    margin: 0 auto 4px;
+    align-items: center;
+  }
+
+  .columns-split.shop-your-way .columns-split-left-stack {
+    width: 100%;
+  }
+}
+
+.columns-split.shop-your-way h3 {
+  font-size: 1.25rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin: 0 0 10px;
+  color: #111;
+  text-align: left;
+}
+
+.columns-split.shop-your-way h4 {
+  font-size: 1rem;
+  font-weight: 900;
+  margin: 16px 0 8px;
+  color: #111;
+  text-align: left;
+}
+
+.columns-split.shop-your-way .columns-split-text p,
+.columns-split.shop-your-way > div > div > p {
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.columns-split.shop-your-way > div > div:first-child ul:first-of-type {
+  counter-reset: syw-step;
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.columns-split.shop-your-way > div > div:first-child ul:first-of-type > li {
+  position: relative;
+  padding-left: 2.25rem;
+  font-weight: 500;
+  line-height: 1.35;
+  counter-increment: syw-step;
+}
+
+.columns-split.shop-your-way > div > div:first-child ul:first-of-type > li::before {
+  content: counter(syw-step);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.45rem;
+  height: 1.45rem;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.columns-split.shop-your-way > div > div:last-child ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+  columns: 2;
+  column-gap: 24px;
+}
+
+.columns-split.shop-your-way > div > div:last-child ul > li {
+  margin: 0 0 6px;
+  break-inside: avoid;
+}
+
+.columns-split.shop-your-way > div > div:last-child .columns-split-content {
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+}
+
+.columns-split.shop-your-way > div > div:first-child .columns-split-content {
+  align-items: flex-start;
+  gap: 16px;
+  width: 100%;
+}
+
+.columns-split.shop-your-way > div > div:last-child .columns-split-icon img {
+  width: min(140px, 38vw);
+  height: auto;
+  max-width: 100%;
+}
+
+.columns-split.shop-your-way > div > div:first-child .columns-split-icon img {
+  width: 48px;
+  height: auto;
+}
+
+main .columns-split.shop-your-way .button-container {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  margin: 14px 0 0;
+}
+
+main .columns-split.shop-your-way a.button:any-link {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  min-height: 48px;
+  white-space: normal;
+  line-height: 1.2;
+  padding: 12px 16px;
+}
+
+main .columns-split.shop-your-way > div > div:first-child a.button:any-link {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+main .columns-split.shop-your-way > div > div:first-child a.button:hover {
+  background-color: var(--color-primary-hover);
+  color: #fff;
+}
+
+main .columns-split.shop-your-way > div > div:last-child a.button:any-link {
+  background-color: #111;
+  color: #fff;
+}
+
+main .columns-split.shop-your-way > div > div:last-child a.button:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+main .columns-split.shop-your-way a:any-link:not(.button) {
+  color: #1473e6;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .columns-split.shop-your-way a:not(.button):hover {
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .columns-split.columns-split-2-cols.shop-your-way > div {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  .columns-split.columns-split-2-cols.shop-your-way > div > div:first-child {
+    flex: 0 0 826px;
+    width: 826px;
+    min-width: 826px;
+    max-width: 826px;
+    height: 395px;
+    min-height: 395px;
+    max-height: 395px;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  .columns-split.shop-your-way > div > div:first-child .columns-split-left-stack {
+    min-height: 0;
+    overflow-y: auto;
+  }
+
+  .columns-split.columns-split-2-cols.shop-your-way > div > div:last-child {
+    flex: 1 1 0;
+    min-width: 0;
+    max-width: none;
   }
 }

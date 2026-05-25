@@ -12,7 +12,10 @@
     "colorScheme": "light",
     "density": "spacious",
     "purpose": "dual-cta",
-    "imagePattern": "icon"
+    "imagePattern": "icon",
+    "variants": {
+      "shop-your-way": "Shop Tires Your Way — first (Treadwell) card 826×395px on ≥900px viewports; hero from /images/shop-your-way-treadwell-hero.png or window.hlx.shopYourWayHeroImage; second card flexes; no OR"
+    }
   },
   "contentPattern": {
     "structure": "icon + text + CTA | separator | icon + text + CTA",

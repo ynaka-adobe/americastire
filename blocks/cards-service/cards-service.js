@@ -1,5 +1,51 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
+/**
+ * Compact vertical tiles for Shop by Category (or when block is authored with `category`).
+ * Detects preceding heading in the same section row (direct h1–h6 or inside default-content-wrapper).
+ */
+function applyCategoryVariant(block) {
+  if (block.classList.contains('category')) return;
+  const wrapper = block.parentElement;
+  const prev = wrapper?.previousElementSibling;
+  if (!prev) return;
+  let heading = null;
+  if (prev.classList?.contains('default-content-wrapper')) {
+    heading = prev.querySelector('h1, h2, h3, h4, h5, h6');
+  } else if (/^H[1-6]$/i.test(prev.tagName)) {
+    heading = prev;
+  }
+  if (!heading) return;
+  if (/shop\s+by\s+category/i.test(heading.textContent.trim())) {
+    block.classList.add('category');
+  }
+}
+
+/**
+ * Life of Tire service tiles (or block class `service`): copy on top, photo on bottom, 266×246.
+ */
+function applyServiceVariant(block) {
+  if (block.classList.contains('service') || block.classList.contains('category')) return;
+  const wrapper = block.parentElement;
+  const section = block.closest('.section');
+  if (!section || !wrapper) return;
+
+  const life = [...section.querySelectorAll('h1, h2, h3, h4, h5, h6')].find(
+    (h) => /life\s+of\s+tire\s+services/i.test(h.textContent) && /every\s+tire\s+purchase/i.test(h.textContent),
+  );
+  if (!life) return;
+
+  let node = life.nextElementSibling;
+  while (node) {
+    if (/^H[1-6]$/i.test(node.tagName)) break;
+    if (node === wrapper || (typeof node.contains === 'function' && node.contains(block))) {
+      block.classList.add('service');
+      return;
+    }
+    node = node.nextElementSibling;
+  }
+}
+
 /** Table rows often ship an empty first cell when the icon was never authored — remove so layout can run. */
 function removeLeadingEmptyCells(li) {
   let child = li.firstElementChild;
@@ -36,7 +82,8 @@ function hoistLeadingPictureIntoImageColumn(li) {
 }
 
 /** index.plain.html row 1 has an empty image cell — add repo shield so grid + CSS apply. */
-function ensureDefaultIconIfMissing(li, rowIndex) {
+function ensureDefaultIconIfMissing(li, rowIndex, block) {
+  if (block.classList.contains('service')) return;
   if (li.querySelector(':scope > .cards-service-card-image')) return;
   const prefix = window.hlx?.codeBasePath || '';
   const icon =
@@ -90,6 +137,8 @@ function decorateCard3OnlineInStore(li, rowIndex) {
 }
 
 export default function decorate(block) {
+  applyCategoryVariant(block);
+  applyServiceVariant(block);
   const ul = document.createElement('ul');
   [...block.children].forEach((row, rowIndex) => {
     const li = document.createElement('li');
@@ -100,12 +149,15 @@ export default function decorate(block) {
       else div.className = 'cards-service-card-body';
     });
     hoistLeadingPictureIntoImageColumn(li);
-    ensureDefaultIconIfMissing(li, rowIndex);
+    ensureDefaultIconIfMissing(li, rowIndex, block);
     decorateCard3OnlineInStore(li, rowIndex);
     ul.append(li);
   });
+  let pictureWidths = [{ width: '750' }];
+  if (block.classList.contains('category')) pictureWidths = [{ width: '250' }];
+  else if (block.classList.contains('service')) pictureWidths = [{ width: '266' }, { width: '532' }];
   ul.querySelectorAll('picture > img').forEach((img) => {
-    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]);
+    const optimizedPic = createOptimizedPicture(img.src, img.alt, false, pictureWidths);
     img.closest('picture').replaceWith(optimizedPic);
   });
   block.textContent = '';
