@@ -1,11 +1,10 @@
 import { getMetadata } from '../../scripts/aem.js';
+import { getBrandConfig } from '../../scripts/brand.js';
 import { loadFragment } from '../fragment/fragment.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 const DEFAULT_MY_STORE_ADDRESS = '1155 El Camino Real - Millbrae';
-
-const BRAND_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
 
 /**
  * Point all brand images at the CDN logo; drop picture sources that override src.
@@ -15,6 +14,10 @@ const BRAND_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8
 function applyBrandLogo(navBrand) {
   if (!navBrand) return;
 
+  const { logoUrl, legalName } = getBrandConfig();
+  const logoAlt = `${legalName} logo`;
+  const homeLabel = `${legalName} home`;
+
   navBrand.querySelectorAll('picture source').forEach((el) => {
     el.remove();
   });
@@ -22,12 +25,12 @@ function applyBrandLogo(navBrand) {
   const imgs = navBrand.querySelectorAll('img');
   if (imgs.length > 0) {
     imgs.forEach((img) => {
-      img.src = BRAND_LOGO_URL;
+      img.src = logoUrl;
       img.loading = 'eager';
       img.removeAttribute('srcset');
-      if (!img.alt) {
-        img.alt = "America's Tire logo";
-      }
+      img.alt = logoAlt;
+      const parentA = img.closest('a');
+      if (parentA) parentA.setAttribute('aria-label', homeLabel);
     });
     return;
   }
@@ -35,10 +38,10 @@ function applyBrandLogo(navBrand) {
   const home = '/';
   const a = document.createElement('a');
   a.href = home;
-  a.setAttribute('aria-label', "America's Tire home");
+  a.setAttribute('aria-label', homeLabel);
   const img = document.createElement('img');
-  img.src = BRAND_LOGO_URL;
-  img.alt = "America's Tire logo";
+  img.src = logoUrl;
+  img.alt = logoAlt;
   img.width = 200;
   img.height = 50;
   img.loading = 'eager';

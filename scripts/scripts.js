@@ -16,6 +16,7 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
+import { applyDocumentBrandTweaks, applySiteBrandToSubtree } from './brand.js';
 
 /** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
 const AUTO_HERO_SKIP_PICTURE = [
@@ -147,7 +148,8 @@ function decorateSections(main) {
 }
 
 /**
- * "Schedule a Service Appointment" → outlined red button (distinct from other /schedule-appointment links).
+ * "Schedule a Service Appointment" → outlined red button
+ * (distinct from other /schedule-appointment links).
  * @param {Element} main
  */
 function decorateScheduleServiceAppointmentCTA(main) {
@@ -191,6 +193,7 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
+  applyDocumentBrandTweaks(doc);
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
@@ -224,13 +227,16 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  applySiteBrandToSubtree(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  await loadHeader(doc.querySelector('header'));
+  await loadFooter(doc.querySelector('footer'));
+  applySiteBrandToSubtree(doc.querySelector('header'));
+  applySiteBrandToSubtree(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
