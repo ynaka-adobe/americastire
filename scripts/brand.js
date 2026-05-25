@@ -6,8 +6,8 @@
  * - **JS / blocks:** `import { getBrandConfig } from './brand.js'` or read `window.hlx.brand`
  *   after the first tick of `loadEager` (set by `registerSiteBrandOnWindow()`).
  * - **DA / HTML copy:** use placeholders `{{brand}}`, `{{brandPossessive}}`, and
- *   `{{brandLetter}}` in text or common attributes (alt, title, aria-label, placeholder);
- *   `expandBrandTokensInSubtree` replaces them per site.
+ *   `{{brandLetter}}` in text or common attributes (alt, title, aria-label, placeholder, href,
+ *   src); `expandBrandTokensInSubtree` replaces them per site.
  */
 
 const AT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
@@ -84,7 +84,7 @@ export function registerSiteBrandOnWindow() {
   };
 }
 
-const TOKEN_ATTRS = ['alt', 'title', 'aria-label', 'placeholder'];
+const TOKEN_ATTRS = ['alt', 'title', 'aria-label', 'placeholder', 'href', 'src'];
 
 /**
  * Replace `{{brand}}`, `{{brandPossessive}}`, `{{brand.possessive}}`, and `{{brandLetter}}`

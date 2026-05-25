@@ -1,3 +1,5 @@
+import { expandBrandTokensInSubtree } from '../../scripts/brand.js';
+
 /**
  * @param {string} urlString
  * @returns {boolean}
@@ -48,6 +50,8 @@ function maybeRenderScene7Image(cell) {
 }
 
 export default function decorate(block) {
+  expandBrandTokensInSubtree(block);
+
   const row = block.firstElementChild;
   if (!row) return;
   const firstCell = row.firstElementChild;
