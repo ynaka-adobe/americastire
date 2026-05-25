@@ -7,7 +7,8 @@
  *   after the first tick of `loadEager` (set by `registerSiteBrandOnWindow()`).
  * - **DA / HTML copy:** use placeholders `{{brand}}`, `{{brandPossessive}}`, and
  *   `{{brandLetter}}` in text or common attributes (alt, title, aria-label, placeholder, href,
- *   src); `expandBrandTokensInSubtree` replaces them per site.
+ *   src); `expandBrandTokensInSubtree` replaces them per site. Scene7 URLs may use URL-encoded
+ *   braces (e.g. `%7B%7BbrandLetter%7D%7D`); `replaceBrandTokens` decodes those first.
  */
 
 const AT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
@@ -87,15 +88,41 @@ export function registerSiteBrandOnWindow() {
 const TOKEN_ATTRS = ['alt', 'title', 'aria-label', 'placeholder', 'href', 'src'];
 
 /**
+ * True if `s` contains a brand token in literal or URL-encoded form (e.g. Scene7 paths use
+ * `%7B%7BbrandLetter%7D%7D` for `{{brandLetter}}`).
+ * @param {string} s
+ */
+function stringHasBrandToken(s) {
+  if (!s || typeof s !== 'string') return false;
+  if (s.includes('{{brand')) return true;
+  return /%7b%7bbrand/i.test(s);
+}
+
+/**
+ * DAM / Scene7 URLs often encode `{` / `}` as %7B / %7D, so `{{brandLetter}}` becomes
+ * `%7B%7BbrandLetter%7D%7D`. Normalize to literal placeholders before token replacement.
+ * @param {string} s
+ */
+function decodeUrlEncodedBrandPlaceholders(s) {
+  if (!s || !/%7b%7bbrand/i.test(s)) return s;
+  return s
+    .replace(/%7B%7Bbrand\.possessive%7D%7D/gi, '{{brand.possessive}}')
+    .replace(/%7B%7BbrandPossessive%7D%7D/gi, '{{brandPossessive}}')
+    .replace(/%7B%7BbrandLetter%7D%7D/gi, '{{brandLetter}}')
+    .replace(/%7B%7Bbrand%7D%7D/gi, '{{brand}}');
+}
+
+/**
  * Replace `{{brand}}`, `{{brandPossessive}}`, `{{brand.possessive}}`, and `{{brandLetter}}`
  * with the active site values. `{{brandLetter}}` is expanded before `{{brand}}` so it is not
- * mangled.
+ * mangled. Also decodes URL-encoded `%7B%7B…%7D%7D` token spellings used in Scene7 URLs.
  * @param {string} s
  */
 export function replaceBrandTokens(s) {
   if (!s || typeof s !== 'string') return s;
+  const t = decodeUrlEncodedBrandPlaceholders(s);
   const { legalName, legalNamePossessive, brandLetter } = getBrandConfig();
-  return s
+  return t
     .split('{{brand.possessive}}')
     .join(legalNamePossessive)
     .split('{{brandPossessive}}')
@@ -116,7 +143,7 @@ export function expandBrandTokensInSubtree(root) {
   const docRef = root.ownerDocument || document;
   const walker = docRef.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
     acceptNode(node) {
-      if (!node.nodeValue || !node.nodeValue.includes('{{brand')) return NodeFilter.FILTER_REJECT;
+      if (!node.nodeValue || !stringHasBrandToken(node.nodeValue)) return NodeFilter.FILTER_REJECT;
       const p = node.parentElement;
       if (!p || SKIP_TEXT_PARENT_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
       return NodeFilter.FILTER_ACCEPT;
@@ -131,7 +158,7 @@ export function expandBrandTokensInSubtree(root) {
   root.querySelectorAll('*').forEach((el) => {
     TOKEN_ATTRS.forEach((attr) => {
       const v = el.getAttribute(attr);
-      if (!v || !v.includes('{{brand')) return;
+      if (!v || !stringHasBrandToken(v)) return;
       el.setAttribute(attr, replaceBrandTokens(v));
     });
   });
@@ -165,13 +192,13 @@ export function applyDocumentBrandTweaks(doc) {
     fav.setAttribute('href', getBrandConfig().faviconHref);
   }
 
-  if (doc.title?.includes('{{brand')) {
+  if (doc.title && stringHasBrandToken(doc.title)) {
     doc.title = replaceBrandTokens(doc.title);
   }
 
   doc.head?.querySelectorAll('meta[name="description"], meta[property="og:title"], meta[property="og:description"], meta[name="twitter:title"], meta[name="twitter:description"]').forEach((meta) => {
     const c = meta.getAttribute('content');
-    if (c?.includes('{{brand')) meta.setAttribute('content', replaceBrandTokens(c));
+    if (c && stringHasBrandToken(c)) meta.setAttribute('content', replaceBrandTokens(c));
   });
 
   if (getSiteBrandKey() !== 'discount-tire') return;

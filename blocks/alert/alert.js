@@ -1,4 +1,4 @@
-import { expandBrandTokensInSubtree } from '../../scripts/brand.js';
+import { expandBrandTokensInSubtree, replaceBrandTokens } from '../../scripts/brand.js';
 
 /**
  * @param {string} urlString
@@ -20,8 +20,8 @@ function isScene7Url(urlString) {
  */
 function replaceCellWithScene7Img(cell, url, alt) {
   const img = document.createElement('img');
-  img.src = url;
-  img.alt = alt || '';
+  img.src = replaceBrandTokens(url);
+  img.alt = replaceBrandTokens(alt || '');
   img.loading = 'eager';
   cell.replaceChildren(img);
 }
@@ -35,18 +35,25 @@ function maybeRenderScene7Image(cell) {
   if (cell.querySelector(':scope picture')) return;
 
   const existingImg = cell.querySelector(':scope img');
-  if (existingImg?.src && isScene7Url(existingImg.src)) return;
+  if (existingImg?.src && isScene7Url(existingImg.src)) {
+    const raw = existingImg.getAttribute('src') || '';
+    const next = replaceBrandTokens(raw);
+    if (next !== raw) existingImg.setAttribute('src', next);
+    return;
+  }
 
   const link = cell.querySelector(':scope a[href]');
-  if (link && isScene7Url(link.href)) {
-    replaceCellWithScene7Img(cell, link.href, link.textContent.trim());
+  const hrefRaw = link?.getAttribute('href') || '';
+  const hrefExpanded = replaceBrandTokens(hrefRaw);
+  if (link && isScene7Url(hrefExpanded)) {
+    replaceCellWithScene7Img(cell, hrefExpanded, link.textContent.trim());
     return;
   }
 
   const text = cell.textContent.trim();
   const urls = text.match(/https?:\/\/[^\s<>"']+/gi);
-  const scene7 = urls?.find((u) => isScene7Url(u));
-  if (scene7) replaceCellWithScene7Img(cell, scene7, '');
+  const scene7 = urls?.find((u) => isScene7Url(replaceBrandTokens(u)));
+  if (scene7) replaceCellWithScene7Img(cell, replaceBrandTokens(scene7), '');
 }
 
 export default function decorate(block) {
