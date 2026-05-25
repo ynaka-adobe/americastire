@@ -5,9 +5,9 @@
  * Usage:
  * - **JS / blocks:** `import { getBrandConfig } from './brand.js'` or read `window.hlx.brand`
  *   after the first tick of `loadEager` (set by `registerSiteBrandOnWindow()`).
- * - **DA / HTML copy:** use placeholders `{{brand}}` and `{{brandPossessive}}` in text or
- *   common attributes (alt, title, aria-label, placeholder); `expandBrandTokensInSubtree`
- *   replaces them per site.
+ * - **DA / HTML copy:** use placeholders `{{brand}}`, `{{brandPossessive}}`, and
+ *   `{{brandLetter}}` in text or common attributes (alt, title, aria-label, placeholder);
+ *   `expandBrandTokensInSubtree` replaces them per site.
  */
 
 const AT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
@@ -53,8 +53,8 @@ export function getSiteBrandKey() {
 /**
  * Active brand for this hostname (names, logo, favicon, consumer host).
  *
- * @returns {object} Brand config: key, legalName, legalNamePossessive, logoUrl, faviconHref,
- *   consumerHost
+ * @returns {object} Brand config: key, legalName, legalNamePossessive, brandLetter, logoUrl,
+ *   faviconHref, consumerHost
  */
 export function getBrandConfig() {
   const key = getSiteBrandKey();
@@ -63,6 +63,7 @@ export function getBrandConfig() {
     key,
     ...profile,
     legalNamePossessive: `${profile.legalName}'s`,
+    brandLetter: key === 'discount-tire' ? 'D' : 'A',
   };
 }
 
@@ -76,6 +77,7 @@ export function registerSiteBrandOnWindow() {
     key: cfg.key,
     legalName: cfg.legalName,
     legalNamePossessive: cfg.legalNamePossessive,
+    brandLetter: cfg.brandLetter,
     logoUrl: cfg.logoUrl,
     faviconHref: cfg.faviconHref,
     consumerHost: cfg.consumerHost,
@@ -85,18 +87,21 @@ export function registerSiteBrandOnWindow() {
 const TOKEN_ATTRS = ['alt', 'title', 'aria-label', 'placeholder'];
 
 /**
- * Replace `{{brand}}`, `{{brandPossessive}}`, and `{{brand.possessive}}` with the active site
- * strings.
+ * Replace `{{brand}}`, `{{brandPossessive}}`, `{{brand.possessive}}`, and `{{brandLetter}}`
+ * with the active site values. `{{brandLetter}}` is expanded before `{{brand}}` so it is not
+ * mangled.
  * @param {string} s
  */
 export function replaceBrandTokens(s) {
   if (!s || typeof s !== 'string') return s;
-  const { legalName, legalNamePossessive } = getBrandConfig();
+  const { legalName, legalNamePossessive, brandLetter } = getBrandConfig();
   return s
     .split('{{brand.possessive}}')
     .join(legalNamePossessive)
     .split('{{brandPossessive}}')
     .join(legalNamePossessive)
+    .split('{{brandLetter}}')
+    .join(brandLetter)
     .split('{{brand}}')
     .join(legalName);
 }
