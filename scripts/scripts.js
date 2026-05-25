@@ -16,7 +16,12 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
-import { applyDocumentBrandTweaks, applySiteBrandToSubtree } from './brand.js';
+import {
+  applyDocumentBrandTweaks,
+  applySiteBrandToSubtree,
+  expandBrandTokensInSubtree,
+  registerSiteBrandOnWindow,
+} from './brand.js';
 
 /** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
 const AUTO_HERO_SKIP_PICTURE = [
@@ -186,6 +191,7 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateScheduleServiceAppointmentCTA(main);
   decorateBlocks(main);
+  expandBrandTokensInSubtree(main);
 }
 
 /**
@@ -194,6 +200,7 @@ export function decorateMain(main) {
  */
 async function loadEager(doc) {
   applyDocumentBrandTweaks(doc);
+  registerSiteBrandOnWindow();
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
@@ -228,6 +235,7 @@ async function loadLazy(doc) {
   const main = doc.querySelector('main');
   await loadSections(main);
   applySiteBrandToSubtree(main);
+  expandBrandTokensInSubtree(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
@@ -237,6 +245,8 @@ async function loadLazy(doc) {
   await loadFooter(doc.querySelector('footer'));
   applySiteBrandToSubtree(doc.querySelector('header'));
   applySiteBrandToSubtree(doc.querySelector('footer'));
+  expandBrandTokensInSubtree(doc.querySelector('header'));
+  expandBrandTokensInSubtree(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

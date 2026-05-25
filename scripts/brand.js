@@ -1,6 +1,13 @@
 /**
  * Hostname-based brand for shared DA content (America's Tire vs Discount Tire).
  * Discount Tire preview/prod hosts include "discounttire" in the hostname.
+ *
+ * Usage:
+ * - **JS / blocks:** `import { getBrandConfig } from './brand.js'` or read `window.hlx.brand`
+ *   after the first tick of `loadEager` (set by `registerSiteBrandOnWindow()`).
+ * - **DA / HTML copy:** use placeholders `{{brand}}` and `{{brandPossessive}}` in text or
+ *   common attributes (alt, title, aria-label, placeholder); `expandBrandTokensInSubtree`
+ *   replaces them per site.
  */
 
 const AT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
@@ -12,6 +19,29 @@ const SKIP_TEXT_PARENT_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'CODE', 'P
 /** @typedef {'americas-tire' | 'discount-tire'} SiteBrandKey */
 
 /**
+ * Single source of truth for display names and consumer URLs per site key.
+ * Add fields here (e.g. `supportPhone`) and expose them from `getBrandConfig` /
+ * `window.hlx.brand`.
+ *
+ * @type {Record<SiteBrandKey, { legalName: string, logoUrl: string, faviconHref: string,
+ *   consumerHost: string }>}
+ */
+const BRAND_PROFILES = {
+  'discount-tire': {
+    legalName: 'Discount Tire',
+    logoUrl: DT_LOGO_URL,
+    faviconHref: 'https://www.discounttire.com/favicon.ico',
+    consumerHost: 'www.discounttire.com',
+  },
+  'americas-tire': {
+    legalName: "America's Tire",
+    logoUrl: AT_LOGO_URL,
+    faviconHref: 'https://www.americastire.com/favicon.ico',
+    consumerHost: 'www.americastire.com',
+  },
+};
+
+/**
  * @returns {SiteBrandKey}
  */
 export function getSiteBrandKey() {
@@ -21,23 +51,85 @@ export function getSiteBrandKey() {
 }
 
 /**
- * @returns {{ key: SiteBrandKey, logoUrl: string, legalName: string, faviconHref: string }}
+ * Active brand for this hostname (names, logo, favicon, consumer host).
+ *
+ * @returns {object} Brand config: key, legalName, legalNamePossessive, logoUrl, faviconHref,
+ *   consumerHost
  */
 export function getBrandConfig() {
-  if (getSiteBrandKey() === 'discount-tire') {
-    return {
-      key: 'discount-tire',
-      logoUrl: DT_LOGO_URL,
-      legalName: 'Discount Tire',
-      faviconHref: 'https://www.discounttire.com/favicon.ico',
-    };
-  }
+  const key = getSiteBrandKey();
+  const profile = BRAND_PROFILES[key];
   return {
-    key: 'americas-tire',
-    logoUrl: AT_LOGO_URL,
-    legalName: "America's Tire",
-    faviconHref: 'https://www.americastire.com/favicon.ico',
+    key,
+    ...profile,
+    legalNamePossessive: `${profile.legalName}'s`,
   };
+}
+
+/**
+ * Publishes `getBrandConfig()` on `window.hlx.brand` for blocks that cannot import ESM easily.
+ */
+export function registerSiteBrandOnWindow() {
+  window.hlx = window.hlx || {};
+  const cfg = getBrandConfig();
+  window.hlx.brand = {
+    key: cfg.key,
+    legalName: cfg.legalName,
+    legalNamePossessive: cfg.legalNamePossessive,
+    logoUrl: cfg.logoUrl,
+    faviconHref: cfg.faviconHref,
+    consumerHost: cfg.consumerHost,
+  };
+}
+
+const TOKEN_ATTRS = ['alt', 'title', 'aria-label', 'placeholder'];
+
+/**
+ * Replace `{{brand}}`, `{{brandPossessive}}`, and `{{brand.possessive}}` with the active site
+ * strings.
+ * @param {string} s
+ */
+export function replaceBrandTokens(s) {
+  if (!s || typeof s !== 'string') return s;
+  const { legalName, legalNamePossessive } = getBrandConfig();
+  return s
+    .split('{{brand.possessive}}')
+    .join(legalNamePossessive)
+    .split('{{brandPossessive}}')
+    .join(legalNamePossessive)
+    .split('{{brand}}')
+    .join(legalName);
+}
+
+/**
+ * Walk text + common attributes under `root` and expand brand tokens.
+ * @param {Element|null} root
+ */
+export function expandBrandTokensInSubtree(root) {
+  if (!root) return;
+
+  const docRef = root.ownerDocument || document;
+  const walker = docRef.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      if (!node.nodeValue || !node.nodeValue.includes('{{brand')) return NodeFilter.FILTER_REJECT;
+      const p = node.parentElement;
+      if (!p || SKIP_TEXT_PARENT_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return NodeFilter.FILTER_ACCEPT;
+    },
+  });
+  let n = walker.nextNode();
+  while (n) {
+    n.nodeValue = replaceBrandTokens(n.nodeValue);
+    n = walker.nextNode();
+  }
+
+  root.querySelectorAll('*').forEach((el) => {
+    TOKEN_ATTRS.forEach((attr) => {
+      const v = el.getAttribute(attr);
+      if (!v || !v.includes('{{brand')) return;
+      el.setAttribute(attr, replaceBrandTokens(v));
+    });
+  });
 }
 
 /**
@@ -67,6 +159,15 @@ export function applyDocumentBrandTweaks(doc) {
   if (fav) {
     fav.setAttribute('href', getBrandConfig().faviconHref);
   }
+
+  if (doc.title?.includes('{{brand')) {
+    doc.title = replaceBrandTokens(doc.title);
+  }
+
+  doc.head?.querySelectorAll('meta[name="description"], meta[property="og:title"], meta[property="og:description"], meta[name="twitter:title"], meta[name="twitter:description"]').forEach((meta) => {
+    const c = meta.getAttribute('content');
+    if (c?.includes('{{brand')) meta.setAttribute('content', replaceBrandTokens(c));
+  });
 
   if (getSiteBrandKey() !== 'discount-tire') return;
 
@@ -118,11 +219,11 @@ export function applySiteBrandToSubtree(root) {
       return NodeFilter.FILTER_ACCEPT;
     },
   });
-  let n = walker.nextNode();
-  while (n) {
-    const next = applyBrandStringReplacements(n.nodeValue);
-    if (next !== n.nodeValue) n.nodeValue = next;
-    n = walker.nextNode();
+  let node = walker.nextNode();
+  while (node) {
+    const next = applyBrandStringReplacements(node.nodeValue);
+    if (next !== node.nodeValue) node.nodeValue = next;
+    node = walker.nextNode();
   }
 
   root.querySelectorAll('*').forEach((el) => {
