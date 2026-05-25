@@ -4,7 +4,8 @@
  */
 
 const AT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg';
-const DT_LOGO_URL = 'https://discounttire.scene7.com/is/content/discounttire/logos/DT_logo.svg';
+/** Same wordmark asset discounttire.com loads (not Scene7; avoids picture/src edge cases). */
+const DT_LOGO_URL = 'https://cdn.discounttire.com/sys-master/images/hc5/h31/8808331083806/DT_logo.svg';
 
 const SKIP_TEXT_PARENT_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'CODE', 'PRE', 'TEXTAREA', 'SVG']);
 
@@ -88,6 +89,25 @@ const ATTRS_TO_REWRITE = ['alt', 'title', 'aria-label', 'placeholder'];
  */
 export function applySiteBrandToSubtree(root) {
   if (!root || getSiteBrandKey() !== 'discount-tire') return;
+
+  const { logoUrl, legalName } = getBrandConfig();
+  const logoAlt = `${legalName} logo`;
+  const homeLabel = `${legalName} home`;
+  // Nav fragment often uses ./media_*.svg (America's Tire art); force DT logo in header.
+  root.querySelectorAll('.nav-brand img').forEach((img) => {
+    const src = img.getAttribute('src') || '';
+    const isAtAsset = src.includes('AT_logo') || src.includes('8808331149342');
+    const isRelative = src.startsWith('./') || src.startsWith('../')
+      || (src.startsWith('/') && !src.startsWith('//'));
+    if (isAtAsset || isRelative) {
+      img.src = logoUrl;
+      img.removeAttribute('srcset');
+      img.alt = logoAlt;
+      const parentA = img.closest('a');
+      if (parentA) parentA.setAttribute('aria-label', homeLabel);
+    }
+  });
+  root.querySelectorAll('.nav-brand picture source').forEach((el) => el.remove());
 
   const docRef = root.ownerDocument || document;
   const walker = docRef.createTreeWalker(root, NodeFilter.SHOW_TEXT, {

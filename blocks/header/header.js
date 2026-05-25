@@ -18,6 +18,25 @@ function applyBrandLogo(navBrand) {
   const logoAlt = `${legalName} logo`;
   const homeLabel = `${legalName} home`;
 
+  // Nav fragments often use <picture> + ./media_*.svg; replace with a single <img> so src
+  // is not overridden by <source> candidates.
+  navBrand.querySelectorAll('picture').forEach((picture) => {
+    const oldImg = picture.querySelector('img');
+    if (!oldImg) {
+      picture.remove();
+      return;
+    }
+    const img = document.createElement('img');
+    img.src = logoUrl;
+    img.alt = logoAlt;
+    img.loading = 'eager';
+    if (oldImg.hasAttribute('width')) img.setAttribute('width', oldImg.getAttribute('width'));
+    if (oldImg.hasAttribute('height')) img.setAttribute('height', oldImg.getAttribute('height'));
+    const parentA = picture.closest('a');
+    picture.replaceWith(img);
+    if (parentA) parentA.setAttribute('aria-label', homeLabel);
+  });
+
   navBrand.querySelectorAll('picture source').forEach((el) => {
     el.remove();
   });
