@@ -239,6 +239,80 @@
     ]
   },
   {
+    "id": "hero-promo-brand-split",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "watermarkImage",
+        "label": "Watermark image (optional)",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "watermarkAlt",
+        "label": "Watermark alt text",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "title",
+        "label": "Heading",
+        "value": "Brand Tires"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "body",
+        "label": "Body copy"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "primaryCtaUrl",
+        "label": "Primary CTA URL",
+        "value": "#"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "primaryCtaText",
+        "label": "Primary CTA label",
+        "value": "SHOP ALL BRAND TIRES"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "secondaryUrl",
+        "label": "Secondary link URL",
+        "value": "#"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "secondaryText",
+        "label": "Secondary link label",
+        "value": "List of available tire products"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "heroImage",
+        "label": "Hero image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heroAlt",
+        "label": "Hero image alt text",
+        "value": ""
+      }
+    ]
+  },
+  {
     "id": "hero",
     "fields": [
       {

@@ -14,6 +14,17 @@
         "column1": "picture only (small icon, e.g. credit card)",
         "column2": "body copy in <p>, optional <p class=\"button-container\"><a class=\"button\"> for Learn more style link"
       }
+    },
+    {
+      "name": "brand-split",
+      "authoringLabel": "hero-promo (brand-split)",
+      "purpose": "Diagonal split brand promo: optional watermark, heading, body, red primary CTA, blue text link | full-height hero image",
+      "contentPattern": {
+        "rows": 1,
+        "columns": 2,
+        "column1": "optional watermark <picture>, h2, body <p>, <p class=\"button-container\"><a class=\"button primary\">, <p><a> secondary link",
+        "column2": "hero <picture> (full-bleed, object-fit cover)"
+      }
     }
   ],
   "sourceContext": {

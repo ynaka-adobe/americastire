@@ -123,3 +123,149 @@ main .hero-promo.black-thin a:any-link {
   display: inline;
   margin: 0;
 }
+
+/* Variant: brand-split — diagonal copy | hero image (e.g. Michelin brand promo) */
+.hero-promo.brand-split {
+  background-color: #fff;
+  overflow: hidden;
+}
+
+.hero-promo.brand-split p {
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.hero-promo.brand-split a:not(.button) {
+  display: inline;
+  line-height: inherit;
+}
+
+.hero-promo.brand-split > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+  padding: 32px 24px;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-watermark {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 0;
+  width: min(72%, 320px);
+  margin: 0;
+  opacity: 0.14;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-watermark img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-content > :is(h1, h2, h3, h4) {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.2;
+  color: #333;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-content > p:not(.button-container) {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  max-width: 28rem;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #333;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-content > .button-container {
+  position: relative;
+  z-index: 1;
+  display: block;
+  margin: 4px 0 0;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-media {
+  min-height: 220px;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+}
+
+.hero-promo.brand-split .hero-promo-brand-split-media img {
+  width: 100%;
+  height: 100%;
+  min-height: 220px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+main .hero-promo.brand-split a.hero-promo-brand-split-secondary:any-link {
+  position: relative;
+  z-index: 1;
+  color: #1d62b1;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+main .hero-promo.brand-split a.hero-promo-brand-split-secondary:any-link:hover {
+  color: #0d4a8f;
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  .hero-promo.brand-split > div {
+    grid-template-columns: 1fr;
+    min-height: 320px;
+  }
+
+  .hero-promo.brand-split .hero-promo-brand-split-media {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: end;
+    width: 58%;
+    min-height: 320px;
+    clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .hero-promo.brand-split .hero-promo-brand-split-content {
+    grid-column: 1;
+    grid-row: 1;
+    width: 54%;
+    min-height: 320px;
+    padding: 48px 56px 48px 48px;
+    clip-path: polygon(0 0, 100% 0, 84% 100%, 0 100%);
+  }
+
+  .hero-promo.brand-split .hero-promo-brand-split-media img {
+    min-height: 320px;
+  }
+}

@@ -291,6 +291,58 @@
           }
         },
         {
+          "title": "Hero promo (brand split)",
+          "id": "hero-promo-brand-split",
+          "model": "hero-promo-brand-split",
+          "plugins": {
+            "da": {
+              "unsafeHTML": "<div class=\"hero-promo brand-split\"><div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\" src=\"\" alt=\"\"></picture><h2>Brand Tires</h2><p>Established in 1889, this brand ranks among the world's most respected tire manufacturers. They pride themselves on innovation, driver satisfaction, and all-around excellence.</p><p class=\"button-container\"><a class=\"button primary\" href=\"#\">SHOP ALL BRAND TIRES</a></p><p><a href=\"#\">List of available tire products</a></p></div><div><picture><source type=\"image/webp\" srcset=\"\"><source type=\"image/jpeg\" srcset=\"\"><img loading=\"lazy\" src=\"\" alt=\"\"></picture></div></div></div>",
+              "fields": [
+                {
+                  "name": "watermarkImage",
+                  "selector": "div>div:nth-child(1)>picture:nth-of-type(1)>img[src]"
+                },
+                {
+                  "name": "watermarkAlt",
+                  "selector": "div>div:nth-child(1)>picture:nth-of-type(1)>img[alt]"
+                },
+                {
+                  "name": "title",
+                  "selector": "div>div:nth-child(1)>h2"
+                },
+                {
+                  "name": "body",
+                  "selector": "div>div:nth-child(1)>p:nth-of-type(1)"
+                },
+                {
+                  "name": "primaryCtaUrl",
+                  "selector": "div>div:nth-child(1)>p.button-container>a[href]"
+                },
+                {
+                  "name": "primaryCtaText",
+                  "selector": "div>div:nth-child(1)>p.button-container>a"
+                },
+                {
+                  "name": "secondaryUrl",
+                  "selector": "div>div:nth-child(1)>p:last-child>a[href]"
+                },
+                {
+                  "name": "secondaryText",
+                  "selector": "div>div:nth-child(1)>p:last-child>a"
+                },
+                {
+                  "name": "heroImage",
+                  "selector": "div>div:nth-child(2)>picture>img[src]"
+                },
+                {
+                  "name": "heroAlt",
+                  "selector": "div>div:nth-child(2)>picture>img[alt]"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Hero",
           "id": "hero",
           "model": "hero",

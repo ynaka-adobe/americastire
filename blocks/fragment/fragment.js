@@ -11,6 +11,10 @@ import {
 import {
   loadSections,
 } from '../../scripts/aem.js';
+import {
+  isPromoSchedulerPath,
+  resolvePromoSchedulerFragment,
+} from '../../scripts/promo-scheduler.js';
 
 /**
  * Loads a fragment.
@@ -43,8 +47,17 @@ export async function loadFragment(path) {
 
 export default async function decorate(block) {
   const link = block.querySelector('a');
-  const path = link ? link.getAttribute('href') : block.textContent.trim();
-  const fragment = await loadFragment(path);
+  let path = link ? link.getAttribute('href') : block.textContent.trim();
+  if (path && isPromoSchedulerPath(path)) {
+    try {
+      path = await resolvePromoSchedulerFragment(path);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+      path = null;
+    }
+  }
+  const fragment = path ? await loadFragment(path) : null;
   if (fragment) {
     const fragmentSection = fragment.querySelector(':scope .section');
     if (fragmentSection) {
