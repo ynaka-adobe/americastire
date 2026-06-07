@@ -188,9 +188,14 @@ function filterData(searchTerms, data) {
   ].map((item) => item.result);
 }
 
+function getSiteSearchQuery() {
+  return searchParams.get('q') || searchParams.get('text') || '';
+}
+
 async function handleSearch(e, block, config) {
   const searchValue = e.target.value;
   searchParams.set('q', searchValue);
+  searchParams.delete('text');
   if (window.history.replaceState) {
     const url = new URL(window.location.href);
     url.search = searchParams.toString();
@@ -259,9 +264,10 @@ export default async function decorate(block) {
     searchResultsContainer(block),
   );
 
-  if (searchParams.get('q')) {
+  const initialQuery = getSiteSearchQuery();
+  if (initialQuery) {
     const input = block.querySelector('input');
-    input.value = searchParams.get('q');
+    input.value = initialQuery;
     input.dispatchEvent(new Event('input'));
   }
 

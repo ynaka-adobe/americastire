@@ -463,6 +463,28 @@
           }
         },
         {
+          "title": "Tire Search",
+          "id": "tire-search",
+          "model": "tire-search",
+          "plugins": {
+            "da": {
+              "name": "tire-search",
+              "rows": 1,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "indexUrl",
+                  "selector": "div>div>p>a[href]"
+                },
+                {
+                  "name": "indexUrlText",
+                  "selector": "div>div>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Video",
           "id": "video",
           "model": "video",

@@ -427,7 +427,7 @@ export default async function decorate(block) {
       form.setAttribute('role', 'search');
 
       searchUrl.searchParams.forEach((value, key) => {
-        if (key !== 'q') {
+        if (key !== 'text' && key !== 'q') {
           const h = document.createElement('input');
           h.type = 'hidden';
           h.name = key;
@@ -441,7 +441,7 @@ export default async function decorate(block) {
 
       const input = document.createElement('input');
       input.type = 'search';
-      input.name = 'q';
+      input.name = 'text';
       input.placeholder = 'What can we help you find?';
       input.setAttribute('autocomplete', 'off');
       input.className = 'nav-search-input';

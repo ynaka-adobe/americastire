@@ -403,6 +403,24 @@
     ]
   },
   {
+    "id": "tire-search",
+    "fields": [
+      {
+        "component": "text",
+        "name": "indexUrlText",
+        "label": "Tire Index URL Text",
+        "valueType": "string"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "indexUrl",
+        "label": "Tire Index JSON URL",
+        "description": "DA sheet JSON path (default /fragments/tire-index.json)"
+      }
+    ]
+  },
+  {
     "id": "video",
     "fields": [
       {
