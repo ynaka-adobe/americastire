@@ -14,7 +14,7 @@
     {
       "id": "target",
       "title": "Target",
-      "url": "https://experience.adobe.com/#/@acsmarketing/target/activities/activityLibrary",
+      "url": "https://experience.adobe.com/#/@ynaka-adobe/target/activities/activityLibrary",
       "passConfig": true,
       "environments": ["preview", "live", "edit"],
       "includePaths": ["**"]
