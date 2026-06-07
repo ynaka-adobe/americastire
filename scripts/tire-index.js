@@ -31,6 +31,16 @@ export function getSearchQueryFromUrl() {
 }
 
 /**
+ * Brand filter values from `?brand=` (comma-separated, case-insensitive match in filterTires).
+ * @returns {string[]}
+ */
+export function getBrandsFromUrl() {
+  const raw = new URLSearchParams(window.location.search).get('brand');
+  if (!raw?.trim()) return [];
+  return raw.split(',').map((b) => b.trim()).filter(Boolean);
+}
+
+/**
  * @param {string} value
  * @returns {string[]}
  */

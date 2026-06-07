@@ -12,6 +12,19 @@
   gap: 16px;
 }
 
+.tire-search-brand-fragment {
+  margin: 8px 0 0;
+}
+
+.tire-search-brand-fragment[hidden] {
+  display: none;
+}
+
+.tire-search-brand-fragment > .section {
+  margin: 0;
+  padding: 0;
+}
+
 /* toolbar */
 .tire-search-toolbar {
   display: flex;

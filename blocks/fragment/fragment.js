@@ -62,7 +62,7 @@ export async function loadFragment(path) {
  * @param {HTMLElement} fragment
  * @returns {Element[]}
  */
-function fragmentMountNodes(fragment) {
+export function fragmentMountNodes(fragment) {
   const sections = [...fragment.querySelectorAll(':scope > .section')];
   return sections.length ? sections : [...fragment.childNodes];
 }
@@ -92,6 +92,21 @@ async function mountFragmentAt(path, host) {
   const fragment = await loadFragment(resolved);
   if (!fragment) return false;
   mountFragmentNodes(host, fragment);
+  return true;
+}
+
+/**
+ * Append loaded fragment sections into `host` (does not remove host).
+ * @param {Element} host
+ * @param {string} path
+ * @returns {Promise<boolean>}
+ */
+export async function appendFragmentInto(host, path) {
+  const resolved = await resolveFragmentPath(path);
+  if (!resolved) return false;
+  const fragment = await loadFragment(resolved);
+  if (!fragment) return false;
+  host.append(...fragmentMountNodes(fragment));
   return true;
 }
 

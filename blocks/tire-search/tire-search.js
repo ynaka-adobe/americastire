@@ -4,11 +4,18 @@ import {
   fetchPlaceholders,
 } from '../../scripts/aem.js';
 import {
+  DEFAULT_BRAND_TABLE,
+  fetchBrandTable,
+  resolveBrandFragmentForSelection,
+} from '../../scripts/brand-table.js';
+import { appendFragmentInto } from '../fragment/fragment.js';
+import {
   DEFAULT_TIRE_INDEX,
   fetchTireIndex,
   filterTires,
   formatPrice,
   formatRating,
+  getBrandsFromUrl,
   getFilterFacets,
   getSearchQueryFromUrl,
   sortTires,
@@ -24,6 +31,12 @@ import {
 
 /** @type {Record<string, unknown>[]} */
 let catalog = [];
+
+/** @type {Record<string, unknown>[]} */
+let brandTable = [];
+
+/** @type {string} */
+let mountedBrandFragment = '';
 
 /**
  * @param {URL} url
@@ -41,6 +54,11 @@ function syncUrl(url, state) {
     url.searchParams.set('sort', state.sort);
   } else {
     url.searchParams.delete('sort');
+  }
+  if (state.brands.length) {
+    url.searchParams.set('brand', state.brands.join(','));
+  } else {
+    url.searchParams.delete('brand');
   }
   window.history.replaceState({}, '', url.toString());
 }
@@ -178,25 +196,51 @@ function renderResults(block, config, state) {
   );
 
   grid.replaceChildren();
-  if (!state.query) {
+  const hasSearch = !!(state.query || state.brands.length || state.categories.length);
+  if (!hasSearch) {
     summary.textContent = config.placeholders.tireSearchPrompt
       || 'Search for tires by brand, name, or size.';
     grid.classList.add('tire-search-results--empty');
     return;
   }
 
-  summary.textContent = filtered.length
-    ? (config.placeholders.tireSearchResultsFor || '{count} results for "{query}"')
+  const brandLabel = state.brands.length === 1
+    ? state.brands[0]
+    : state.brands.join(', ');
+  let summaryText;
+  if (state.query && state.brands.length) {
+    summaryText = (config.placeholders.tireSearchResultsForBrand || '{count} results for "{query}" in {brand}')
       .replace('{count}', String(filtered.length))
       .replace('{query}', state.query)
-    : (config.placeholders.tireSearchNoResults || 'No tires found for "{query}".')
-      .replace('{query}', state.query);
+      .replace('{brand}', brandLabel);
+  } else if (state.brands.length) {
+    summaryText = (config.placeholders.tireSearchResultsForBrandOnly || '{count} results for {brand}')
+      .replace('{count}', String(filtered.length))
+      .replace('{brand}', brandLabel);
+  } else if (state.query) {
+    summaryText = filtered.length
+      ? (config.placeholders.tireSearchResultsFor || '{count} results for "{query}"')
+        .replace('{count}', String(filtered.length))
+        .replace('{query}', state.query)
+      : (config.placeholders.tireSearchNoResults || 'No tires found for "{query}".')
+        .replace('{query}', state.query);
+  } else {
+    summaryText = (config.placeholders.tireSearchResultsFor || '{count} results')
+      .replace('{count}', String(filtered.length))
+      .replace('{query}', '');
+  }
+  summary.textContent = summaryText;
 
   if (!filtered.length) {
     grid.classList.add('tire-search-results--empty');
     const empty = document.createElement('div');
     empty.className = 'tire-search-empty';
-    empty.innerHTML = `<p>${config.placeholders.tireSearchNoResultsHelp || 'Try a different brand or size, or <a href="/tires">shop all tires</a>.'}</p>`;
+    const noResults = state.brands.length && !state.query
+      ? (config.placeholders.tireSearchNoResultsBrand || 'No tires found for {brand}.')
+        .replace('{brand}', brandLabel)
+      : (config.placeholders.tireSearchNoResults || 'No tires found for "{query}".')
+        .replace('{query}', state.query || brandLabel);
+    empty.innerHTML = `<p>${noResults} ${config.placeholders.tireSearchNoResultsHelp || 'Try a different brand or size, or <a href="/tires">shop all tires</a>.'}</p>`;
     grid.append(empty);
     return;
   }
@@ -207,9 +251,45 @@ function renderResults(block, config, state) {
 
 /**
  * @param {Element} block
- * @param {Record<string, unknown>[]} tires
+ * @param {string[]} brands
  */
-function renderFilters(block, tires) {
+async function renderBrandFragment(block, brands) {
+  const slot = block.querySelector('.tire-search-brand-fragment');
+  if (!slot) return;
+
+  const path = resolveBrandFragmentForSelection(brandTable, brands);
+  if (!path) {
+    mountedBrandFragment = '';
+    slot.replaceChildren();
+    slot.hidden = true;
+    return;
+  }
+
+  if (mountedBrandFragment === path) {
+    slot.hidden = false;
+    return;
+  }
+
+  mountedBrandFragment = path;
+  slot.replaceChildren();
+  slot.hidden = false;
+  const ok = await appendFragmentInto(slot, path);
+  if (!ok) {
+    mountedBrandFragment = '';
+    slot.hidden = true;
+  }
+}
+
+/**
+ * @param {string[]} urlBrands
+ * @param {string} facetBrand
+ */
+function brandMatchesUrl(urlBrands, facetBrand) {
+  const lower = facetBrand.toLowerCase();
+  return urlBrands.some((b) => b.toLowerCase() === lower);
+}
+
+function renderFilters(block, tires, selectedBrands = []) {
   const facets = getFilterFacets(tires);
   const brandList = block.querySelector('.tire-search-filter-brands');
   const categoryList = block.querySelector('.tire-search-filter-categories');
@@ -224,6 +304,9 @@ function renderFilters(block, tires) {
     input.className = 'tire-search-filter-brand';
     input.value = brand;
     input.name = 'brand';
+    if (brandMatchesUrl(selectedBrands, brand)) {
+      input.checked = true;
+    }
     label.append(input, document.createTextNode(` ${brand}`));
     brandList.append(label);
   });
@@ -247,9 +330,10 @@ function renderFilters(block, tires) {
  * @param {object} config
  */
 function bindEvents(block, config) {
-  const run = () => {
+  const run = async () => {
     const state = readState(block);
     syncUrl(new URL(window.location.href), state);
+    await renderBrandFragment(block, state.brands);
     renderResults(block, config, state);
   };
 
@@ -323,6 +407,10 @@ function buildLayout(config) {
 
   toolbar.append(form, sortWrap);
 
+  const brandFragment = document.createElement('div');
+  brandFragment.className = 'tire-search-brand-fragment';
+  brandFragment.hidden = true;
+
   const summary = document.createElement('p');
   summary.className = 'tire-search-summary';
 
@@ -349,31 +437,40 @@ function buildLayout(config) {
   results.setAttribute('role', 'list');
 
   body.append(filters, results);
-  root.append(toolbar, summary, body);
+  root.append(toolbar, brandFragment, summary, body);
   return root;
 }
 
 export default async function decorate(block) {
   const placeholders = await fetchPlaceholders();
-  const source = block.querySelector('a[href]')?.getAttribute('href') || DEFAULT_TIRE_INDEX;
-  catalog = await fetchTireIndex(source);
+  const links = [...block.querySelectorAll('a[href]')];
+  const source = links[0]?.getAttribute('href') || DEFAULT_TIRE_INDEX;
+  const brandTableSource = links[1]?.getAttribute('href') || DEFAULT_BRAND_TABLE;
+  [catalog, brandTable] = await Promise.all([
+    fetchTireIndex(source),
+    fetchBrandTable(brandTableSource),
+  ]);
+  mountedBrandFragment = '';
 
-  const config = { source, placeholders };
+  const config = { source, brandTableSource, placeholders };
   block.replaceChildren(buildLayout(config));
-  renderFilters(block, catalog);
   bindEvents(block, config);
   decorateIcons(block);
 
   const initialQuery = getSearchQueryFromUrl();
+  const initialBrands = getBrandsFromUrl();
   const initialSort = new URLSearchParams(window.location.search).get('sort') || 'best-match';
   const input = block.querySelector('.tire-search-input');
   const sort = block.querySelector('.tire-search-sort');
   if (input && initialQuery) input.value = initialQuery;
   if (sort) sort.value = initialSort;
-  renderResults(block, config, {
+  renderFilters(block, catalog, initialBrands);
+  const initialState = {
     query: initialQuery,
     sort: initialSort,
-    brands: [],
+    brands: [...block.querySelectorAll('.tire-search-filter-brand:checked')].map((el) => el.value),
     categories: [],
-  });
+  };
+  await renderBrandFragment(block, initialState.brands);
+  renderResults(block, config, initialState);
 }
