@@ -62,22 +62,32 @@ export async function applyTargetHeroMboxIfConfigured() {
   const mbox = getMetadata('target-mbox-hero')?.trim();
   if (!mbox) return;
 
-  const selector = getMetadata('target-mbox-hero-selector')?.trim()
-    || '.hero.block .hero-inner';
+  const selectorList = (getMetadata('target-mbox-hero-selector')?.trim()
+    || '.hero-promo, .hero.block .hero-inner')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
   const t = window.adobe?.target;
   if (!t?.getOffer || !t?.applyOffer) return;
+
+  const resolveSelector = () => {
+    for (let i = 0; i < selectorList.length; i += 1) {
+      const el = document.querySelector(selectorList[i]);
+      if (el) return { el, selector: selectorList[i] };
+    }
+    return null;
+  };
 
   await new Promise((resolve) => {
     t.getOffer({
       mbox,
       success(offers) {
-        const el = document.querySelector(selector);
-        if (!el) {
-          logTargetError(new Error(`Target mbox "${mbox}": no element for selector "${selector}"`), document.body);
+        const match = resolveSelector();
+        if (!match) {
           resolve();
           return;
         }
-        t.applyOffer({ mbox, selector, offer: offers });
+        t.applyOffer({ mbox, selector: match.selector, offer: offers });
         resolve();
       },
       error: resolve,

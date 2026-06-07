@@ -539,10 +539,7 @@ function buildBlock(blockName, content) {
 const PAGE_METADATA_BLOCK = 'metadata';
 
 /** Not AEM blocks — layout wrappers or server-only markup (no blocks/name/name.js). */
-const SKIP_BLOCK_MODULES = new Set([
-  PAGE_METADATA_BLOCK,
-  'schedule-services-ctas',
-]);
+const SKIP_BLOCK_MODULES = new Set([PAGE_METADATA_BLOCK]);
 
 async function loadBlock(block) {
   const status = block.dataset.blockStatus;

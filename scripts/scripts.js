@@ -181,10 +181,10 @@ function decorateScheduleServiceAppointmentCTA(main) {
     if (p2?.tagName !== 'P') return;
     const nextLink = p2.querySelector(':scope > a[href*="services"]');
     if (!nextLink || p2.childElementCount !== 1 || nextLink !== p2.firstElementChild) return;
-    const wrap = document.createElement('div');
-    wrap.className = 'schedule-services-ctas';
-    p1.parentElement.insertBefore(wrap, p1);
-    wrap.append(p1, p2);
+    // Class the content wrapper — not a new div (avoids false block decoration).
+    const group = p1.parentElement;
+    if (group?.classList.contains('schedule-services-ctas')) return;
+    group?.classList.add('schedule-services-ctas');
   });
 }
 
