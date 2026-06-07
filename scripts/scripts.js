@@ -24,6 +24,12 @@ import {
 } from './brand.js';
 import { registerDemoDateOnWindow, syncDemoDateFromUrl } from './demo-date.js';
 import { upgradePromoSchedulerLinks } from './promo-scheduler.js';
+import ENV from './utils/env.js';
+import {
+  applyTargetHeroMboxIfConfigured,
+  isUePreviewHost,
+  loadTarget,
+} from './target.js';
 
 syncDemoDateFromUrl();
 
@@ -268,6 +274,10 @@ function loadDelayed() {
 }
 
 async function loadSidekick() {
+  if (ENV !== 'prod') {
+    import('../tools/scheduler/scheduler.js');
+  }
+
   if (document.querySelector('aem-sidekick')) {
     import('./sidekick.js');
     return;
@@ -278,15 +288,17 @@ async function loadSidekick() {
   });
 }
 
-async function loadPage() {
+export async function loadPage() {
+  await loadTarget();
   await loadEager(document);
   await loadLazy(document);
+  await applyTargetHeroMboxIfConfigured();
   loadDelayed();
   loadSidekick();
 }
 
 // UE Editor support before page load
-if (/\.(stage-ue|ue)\.da\.live$/.test(window.location.hostname)) {
+if (isUePreviewHost()) {
   // eslint-disable-next-line import/no-unresolved
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
@@ -297,10 +309,15 @@ loadPage();
   const { searchParams } = new URL(window.location.href);
 
   const lp = searchParams.get('dapreview');
-  // eslint-disable-next-line import/no-unresolved
-  if (lp) import('https://da.live/scripts/dapreview.js').then((mod) => mod.default(loadPage));
+  if (lp) {
+    import('../tools/da/da.js').then((mod) => mod.default(loadPage));
+  }
 
   const exp = searchParams.get('daexperiment');
   // eslint-disable-next-line import/no-unresolved
   if (exp) import('https://da.live/nx/public/plugins/exp/exp.js');
+
+  if (searchParams.has('quick-edit')) {
+    import('../tools/quick-edit/quick-edit.js').then((mod) => mod.default());
+  }
 }());

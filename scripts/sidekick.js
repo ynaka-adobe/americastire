@@ -1,5 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { NX_ORIGIN } from './scripts.js';
+import initSidekickTools from '../tools/sidekick/sidekick.js';
 
 let expMod;
 const DA_EXP = '/public/plugins/exp/exp.js';
@@ -22,4 +23,5 @@ async function toggleExp() {
   const sk = document.querySelector('aem-sidekick');
   if (!sk) return;
   sk.addEventListener('custom:experimentation', toggleExp);
+  initSidekickTools(sk);
 }());

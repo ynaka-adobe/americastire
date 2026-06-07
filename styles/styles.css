@@ -305,3 +305,11 @@ main .section.light {
   background-color: var(--color-light);
   padding: 40px 16px;
 }
+
+aem-sidekick {
+  opacity: 0;
+}
+
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
+}
