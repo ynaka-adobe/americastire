@@ -22,6 +22,10 @@ import {
   expandBrandTokensInSubtree,
   registerSiteBrandOnWindow,
 } from './brand.js';
+import { registerDemoDateOnWindow, syncDemoDateFromUrl } from './demo-date.js';
+import { upgradePromoSchedulerLinks } from './promo-scheduler.js';
+
+syncDemoDateFromUrl();
 
 /** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
 const AUTO_HERO_SKIP_PICTURE = [
@@ -201,6 +205,7 @@ export function decorateMain(main) {
 async function loadEager(doc) {
   applyDocumentBrandTweaks(doc);
   registerSiteBrandOnWindow();
+  registerDemoDateOnWindow();
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
@@ -234,6 +239,7 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  await upgradePromoSchedulerLinks(main);
   applySiteBrandToSubtree(main);
   expandBrandTokensInSubtree(main);
 

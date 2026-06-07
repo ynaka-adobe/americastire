@@ -4,7 +4,10 @@
  * Sheet columns: name, start, end, fragment URL
  * - Rows with empty start and end are defaults (fallback when no dated row matches).
  * - Dated rows match when now >= start and now <= end (open bounds if start/end omitted).
+ * - "Now" comes from `getDemoDate()` — override with `?date=YYYY-MM-DD` (session-persisted).
  */
+
+import { getDemoDate } from './demo-date.js';
 
 /**
  * @param {unknown} value
@@ -79,7 +82,7 @@ function rowsFromSchedulerJson(json) {
  * @param {Date} [now]
  * @returns {string|null}
  */
-export function pickScheduledFragmentPath(json, now = new Date()) {
+export function pickScheduledFragmentPath(json, now = getDemoDate()) {
   const rows = rowsFromSchedulerJson(json);
   if (!rows.length) return null;
 
@@ -96,7 +99,7 @@ export function pickScheduledFragmentPath(json, now = new Date()) {
  * @param {Date} [now]
  * @returns {Promise<string|null>}
  */
-export async function resolvePromoSchedulerFragment(schedulerPath, now = new Date()) {
+export async function resolvePromoSchedulerFragment(schedulerPath, now = getDemoDate()) {
   const trimmed = schedulerPath.trim();
   const jsonUrl = trimmed.endsWith('.json') ? trimmed : `${trimmed.replace(/\/$/, '')}.json`;
   const resp = await fetch(jsonUrl);
@@ -105,4 +108,42 @@ export async function resolvePromoSchedulerFragment(schedulerPath, now = new Dat
   }
   const json = await resp.json();
   return pickScheduledFragmentPath(json, now);
+}
+
+/**
+ * Replace plain promo-scheduler links (not Fragment blocks) with the scheduled fragment.
+ * @param {Element} root
+ */
+export async function upgradePromoSchedulerLinks(root) {
+  const { loadFragment } = await import('../blocks/fragment/fragment.js');
+  const links = [...root.querySelectorAll('a[href]')].filter((a) => {
+    const href = a.getAttribute('href');
+    if (!href || !isPromoSchedulerPath(href)) return false;
+    if (a.closest('.fragment.block')) return false;
+    if (a.dataset.promoSchedulerUpgraded === 'true') return false;
+    return true;
+  });
+
+  await Promise.all(links.map(async (link) => {
+    link.dataset.promoSchedulerUpgraded = 'true';
+    const host = link.closest('p') || link.parentElement;
+    if (!host) return;
+    try {
+      const path = await resolvePromoSchedulerFragment(link.getAttribute('href'));
+      if (!path) return;
+      const fragment = await loadFragment(path);
+      if (!fragment) return;
+      const sections = [...fragment.querySelectorAll(':scope > .section')];
+      const nodes = sections.length ? sections : [...fragment.childNodes];
+      const section = host.closest('.section');
+      const firstSection = fragment.querySelector(':scope > .section');
+      if (section && firstSection) {
+        section.classList.add(...firstSection.classList);
+      }
+      host.replaceWith(...nodes);
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error(e);
+    }
+  }));
 }
