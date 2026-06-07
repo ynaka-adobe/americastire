@@ -535,11 +535,19 @@ function buildBlock(blockName, content) {
  * Loads JS and CSS for a block.
  * @param {Element} block The block element
  */
+/** Blocks handled server-side (meta tags) — no project JS module. */
+const BLOCKS_WITHOUT_JS = new Set(['metadata']);
+
 async function loadBlock(block) {
   const status = block.dataset.blockStatus;
   if (status !== 'loading' && status !== 'loaded') {
-    block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
+    if (BLOCKS_WITHOUT_JS.has(blockName)) {
+      block.closest('.section')?.remove();
+      block.dataset.blockStatus = 'loaded';
+      return block;
+    }
+    block.dataset.blockStatus = 'loading';
     try {
       const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
@@ -591,7 +599,13 @@ function decorateBlock(block) {
  * @param {Element} main The container element
  */
 function decorateBlocks(main) {
-  main.querySelectorAll('div.section > div > div').forEach(decorateBlock);
+  main.querySelectorAll('div.section > div > div').forEach((block) => {
+    if (BLOCKS_WITHOUT_JS.has(block.classList[0])) {
+      block.closest('.section')?.remove();
+      return;
+    }
+    decorateBlock(block);
+  });
 }
 
 /**
