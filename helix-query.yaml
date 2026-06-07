@@ -1,33 +1,35 @@
 # Site page index for /query-index.json (used by the search block).
-# Push to AEM Config Service for production:
+# Production: pushed to AEM Config Service at
 #   POST https://admin.hlx.page/config/ynaka-adobe/sites/americastire/content/query.yaml
-# Local dev: `aem up --print-index` reads this file.
-version: 1
+# Local dev: `aem up --print-index` may use block-collection format; production uses Config Service schema below.
 indices:
-  pages:
-    include:
-      /**
-    exclude:
-      - /fragments/**
-      - /nav
-      - /footer
-      - /placeholders.json
-      - /**.json
-      - /**.plain.html
-      - /modals/**
+  search:
     target: /query-index.json
+    include:
+      - /**
+    exclude:
+      - "**/fragments/**"
+      - "**/drafts/**"
+      - "**/modals/**"
+      - "/docs/**"
+      - "/nav"
+      - "/footer"
+      - "/placeholders"
+      - "**/*.json"
+      - "**/*.plain.html"
     properties:
-      lastModified:
-        select: none
-        value: parsed-last-modified
       title:
-        select: head > title
-      image:
-        select: main picture img[src], head meta[property="og:image"]
-        attribute: src
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:title"]
+      date:
+        value: attribute(el, "content")
+        selectFirst: meta[name="publication-date"]
       description:
-        select: head > meta[name="description"]
-        attribute: content
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:description"]
+      image:
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:image"]
       robots:
-        select: head > meta[name="robots"]
-        attribute: content
+        value: attribute(el, "content")
+        selectFirst: meta[name="robots"]

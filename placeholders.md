@@ -11,3 +11,5 @@ Add these keys to your placeholders sheet for tire search copy:
 | tireSearchNoResultsHelp | Try a different brand or size, or shop all tires at /tires. |
 | searchPlaceholder | Search site content... |
 | searchNoResults | No pages found. |
+| contentSearchPlaceholder | Search pages and articles... |
+| contentSearchNoResults | No pages matched your search. |
