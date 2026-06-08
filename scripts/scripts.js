@@ -35,7 +35,7 @@ syncDemoDateFromUrl();
 
 /** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
 const AUTO_HERO_SKIP_PICTURE = [
-  '.alert', '.hero-promo', '.columns-split', '.cards-service', '.carousel-deals',
+  '.alert', '.hero-promo', '.columns-split', '.cards-service', '.shop-by-brand', '.carousel-deals',
   '.cards', '.columns', '.carousel', '.fragment', '.accordion', '.accordion-faq',
   '.embed', '.video', '.quote', '.table', '.tabs',
 ].join(',');

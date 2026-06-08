@@ -1,0 +1,32 @@
+[
+  {
+    "slug": "michelin",
+    "file": "michelin.svg",
+    "bytes": 17563
+  },
+  {
+    "slug": "goodyear",
+    "file": "goodyear.svg",
+    "bytes": 8866
+  },
+  {
+    "slug": "continental",
+    "file": "continental.svg",
+    "bytes": 6887
+  },
+  {
+    "slug": "falken",
+    "file": "falken.svg",
+    "bytes": 1397
+  },
+  {
+    "slug": "bfgoodrich",
+    "file": "bfgoodrich.svg",
+    "bytes": 10285
+  },
+  {
+    "slug": "yokohama",
+    "file": "yokohama.svg",
+    "bytes": 4411
+  }
+]

@@ -31,8 +31,13 @@
             ".low-price-experience",
             ".AEM-hp-shopByCategory",
             ".service-card",
-            ".AEM-hp-shopByBrand",
             ".featured-content-grid__container"
+          ]
+        },
+        {
+          "name": "shop-by-brand",
+          "instances": [
+            ".AEM-hp-shopByBrand"
           ]
         },
         {
@@ -130,7 +135,7 @@
           "selector": "section.hp_generic:nth-of-type(3)",
           "style": null,
           "blocks": [
-            "cards-service"
+            "shop-by-brand"
           ],
           "defaultContent": []
         },

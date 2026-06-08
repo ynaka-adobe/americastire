@@ -411,6 +411,70 @@
           }
         },
         {
+          "title": "Shop by Brand",
+          "id": "shop-by-brand",
+          "model": "shop-by-brand",
+          "filter": "shop-by-brand",
+          "plugins": {
+            "da": {
+              "name": "shop-by-brand",
+              "rows": 2,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "heading",
+                  "selector": "div:nth-child(1)>div:nth-child(2)>h2"
+                },
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(2)>div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(2)>div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "link",
+                  "selector": "div:nth-child(2)>div:nth-child(2)>p>a[href]"
+                },
+                {
+                  "name": "linkText",
+                  "selector": "div:nth-child(2)>div:nth-child(2)>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Brand",
+          "id": "shop-by-brand-item",
+          "model": "shop-by-brand-item",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "link",
+                  "selector": "div:nth-child(2)>p>a[href]"
+                },
+                {
+                  "name": "linkText",
+                  "selector": "div:nth-child(2)>p>a"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Table",
           "id": "table",
           "model": "table",

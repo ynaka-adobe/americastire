@@ -375,6 +375,48 @@
     ]
   },
   {
+    "id": "shop-by-brand",
+    "fields": [
+      {
+        "component": "text",
+        "name": "heading",
+        "label": "Heading",
+        "valueType": "string",
+        "value": "Shop by Brand"
+      }
+    ]
+  },
+  {
+    "id": "shop-by-brand-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Brand Logo",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Logo Alt Text"
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "link",
+        "label": "Brand Link"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "linkText",
+        "label": "Link Label (aria-label)"
+      }
+    ]
+  },
+  {
     "id": "table",
     "fields": [
       {

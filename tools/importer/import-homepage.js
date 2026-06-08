@@ -5,6 +5,7 @@
 import columnsSplitParser from './parsers/columns-split.js';
 import heroPromoParser from './parsers/hero-promo.js';
 import cardsServiceParser from './parsers/cards-service.js';
+import shopByBrandParser from './parsers/shop-by-brand.js';
 import carouselDealsParser from './parsers/carousel-deals.js';
 import accordionFaqParser from './parsers/accordion-faq.js';
 
@@ -17,6 +18,7 @@ const parsers = {
   'columns-split': columnsSplitParser,
   'hero-promo': heroPromoParser,
   'cards-service': cardsServiceParser,
+  'shop-by-brand': shopByBrandParser,
   'carousel-deals': carouselDealsParser,
   'accordion-faq': accordionFaqParser,
 };
@@ -52,9 +54,12 @@ const PAGE_TEMPLATE = {
         '.low-price-experience',
         '.AEM-hp-shopByCategory',
         '.service-card',
-        '.AEM-hp-shopByBrand',
         '.featured-content-grid__container',
       ],
+    },
+    {
+      name: 'shop-by-brand',
+      instances: ['.AEM-hp-shopByBrand'],
     },
     {
       name: 'carousel-deals',
@@ -127,7 +132,7 @@ const PAGE_TEMPLATE = {
       name: 'Shop by Brand',
       selector: 'section.hp_generic:nth-of-type(3)',
       style: null,
-      blocks: ['cards-service'],
+      blocks: ['shop-by-brand'],
       defaultContent: [],
     },
     {

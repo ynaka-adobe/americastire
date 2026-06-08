@@ -23,6 +23,7 @@
       "quote",
       "search",
       "tire-search",
+      "shop-by-brand",
       "tabs",
       "table",
       "target-offer",
@@ -64,6 +65,12 @@
     "components": [
       "text",
       "image"
+    ]
+  },
+  {
+    "id": "shop-by-brand",
+    "components": [
+      "shop-by-brand-item"
     ]
   },
   {
