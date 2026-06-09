@@ -5,24 +5,24 @@ const $ = (sel, root = document) => root.querySelector(sel);
 
 const TEMPLATES = [
   {
-    title: 'Bio-Rad Laboratories Digital Experience Platform',
-    description: 'Use Bio-Rad provided templates.',
-    url: 'https://github.com/ynaka-adobe/Bio-Rad',
+    title: 'Discount Tire Digital Experience Platform',
+    description: 'Use Discount Tire provided templates.',
+    url: 'https://github.com/ynaka-adobe/americastire',
   },
   {
-    title: 'Bio-Rad Digital Experience w/ Personalization',
-    description: 'Create your own Bio-Rad provided Repo to enable custom block creation and personalization.',
-    url: 'https://github.com/ynaka-adobe/Bio-Rad',
+    title: 'Discount Tire Experience w/ Personalization',
+    description: 'Create your own Discount Tire provided Repo to enable custom block creation and personalization.',
+    url: 'https://github.com/ynaka-adobe/americastire',
   },
   {
-    title: 'Bio-Rad for Platform',
-    description: 'Hooks to subscribe to Bio-Rad content.',
-    url: 'https://github.com/aemsites/Bio-Rad-kit',
+    title: 'Discount Tire for Platform',
+    description: 'Hooks to subscribe to Discount Tire content.',
+    url: 'https://github.com/aemsites/discount-tire-kit',
   },
 ];
 
 const CODE_SYNC_HREF = 'https://da.live/bot';
-const DEFAULT_PRESET_CODEBASE_URL = 'https://github.com/bio-rad-org/bio-rad-dxp';
+const DEFAULT_PRESET_CODEBASE_URL = 'https://github.com/DT-org/DT-dxp';
 const CUSTOM_CODEBASE_SELECT_VALUE = '__custom__';
 
 /** Outside DA, DA_SDK may never resolve; avoid hanging a hidden page forever. */
@@ -115,14 +115,14 @@ function renderMain({
               type="text"
               name="dealerName"
               autocomplete="organization"
-              placeholder="e.g. Bio-Rad"
+              placeholder="e.g. Discount Tire"
               value="${escapeAttr(dealerName)}"
             />
           </div>
         </div>
 
         <div class="sc-block ${step1Hidden}">
-          <label class="sc-label" for="sc-codebase-preset">Bio-Rad Code options</label>
+          <label class="sc-label" for="sc-codebase-preset">Discount Tire Code options</label>
           <div class="sc-input-row">
             <select id="sc-codebase-preset" class="sc-select" name="codebase-preset" aria-controls="sc-custom-repo-wrap">
               <option
@@ -150,7 +150,7 @@ function renderMain({
             </div>
           </div>
           <p class="sc-hint">
-            Choose the Bio-Rad DXP codebase or your own GitHub repo. You can also pick a starter template below to fill a custom URL.
+            Choose the Discount Tire codebase or your own GitHub repo. You can also pick a starter template below to fill a custom URL.
           </p>
         </div>
 
