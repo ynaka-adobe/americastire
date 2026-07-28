@@ -31,16 +31,35 @@ function nameOf(asset) {
   return asset.name || asset['repo:name'] || '';
 }
 
+/** The chosen rendition, if the author picked a smart crop / preset in the selector. */
+function selectedMediaOf(asset) {
+  const media = asset.selectedMedia || asset.selected_media;
+  return Array.isArray(media) ? media[0] : media;
+}
+
 /**
- * Build the base DM OpenAPI delivery URL. Width/format params are appended at render time by
- * decorateDynamicMedia, so the authored link stays clean.
+ * Build the DM OpenAPI delivery URL for a selection. Width/format params are appended at render
+ * time by decorateDynamicMedia, so we only add the smart-crop here (the one thing that must be
+ * baked into the authored link). If the selector already handed back a delivery URL, prefer it.
  * @returns {string|null}
  */
 function buildDeliveryUrl(asset) {
+  const media = selectedMediaOf(asset) || {};
+
+  // Prefer a delivery URL the selector already resolved for the chosen rendition.
+  const ready = media.href || media.url || asset.deliveryUrl;
+  if (ready && /^https:\/\/delivery-/.test(ready)) return ready;
+
   const id = assetIdOf(asset);
   const name = nameOf(asset);
   if (!id || !name) return null;
-  return `https://${deliveryHost(REPOSITORY_ID)}/adobe/assets/${id}/as/${encodeURIComponent(name)}`;
+
+  let url = `https://${deliveryHost(REPOSITORY_ID)}/adobe/assets/${id}/as/${encodeURIComponent(name)}`;
+  // Carry the smart crop through. The delivery param is case-sensitive (e.g. "Banner"); use the
+  // preset name exactly as the selector reports it.
+  const preset = media.preset || media.smartCropName || media.smartcrop;
+  if (preset) url += `?smartcrop=${encodeURIComponent(preset)}`;
+  return url;
 }
 
 function loadSelectorScript() {
@@ -70,6 +89,9 @@ async function init() {
 
   const handleSelection = (assets) => {
     const list = Array.isArray(assets) ? assets : [assets];
+    // Diagnostic: inspect the exact selection shape (asset id, name, chosen smart crop/preset).
+    // eslint-disable-next-line no-console
+    console.log('[dm-assets] selection', JSON.stringify(list, null, 2));
     const links = list
       .map((asset) => {
         const url = buildDeliveryUrl(asset);
