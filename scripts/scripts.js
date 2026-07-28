@@ -23,6 +23,7 @@ import {
   registerSiteBrandOnWindow,
 } from './brand.js';
 import { registerDemoDateOnWindow, syncDemoDateFromUrl } from './demo-date.js';
+import { decorateDynamicMedia } from './utils/dynamic-media.js';
 import { upgradePromoSchedulerLinks } from './promo-scheduler.js';
 import ENV from './utils/env.js';
 import {
@@ -194,6 +195,9 @@ function decorateScheduleServiceAppointmentCTA(main) {
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
+  // Render Dynamic Media links (Content Advisor with image.type=link) as images before
+  // button decoration, so DM asset links are not turned into CTAs.
+  decorateDynamicMedia(main);
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
