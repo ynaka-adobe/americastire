@@ -4,6 +4,206 @@
   },
   "templates": [
     {
+      "name": "promotions",
+      "urls": [
+        "https://www.discounttire.com/promotions"
+      ],
+      "representativeUrl": "https://www.discounttire.com/promotions",
+      "coverageGaps": [],
+      "description": "Discount Tire promotions/deals page with hero, instant savings promo cards, credit card offers, low-price and financing sections, price reductions, and rebate cards",
+      "blocks": [
+        {
+          "name": "columns-split",
+          "instances": [
+            ".stacked-offer",
+            ".greySection",
+            ".hp-financing__container",
+            ".stacked-credit"
+          ]
+        },
+        {
+          "name": "cards-promo",
+          "instances": [
+            ".AEM-numbered-step",
+            ".promoSpotlightContainer",
+            ".low-price-experience",
+            ".price-reduction-card",
+            ".rebatePromoSpotlightBox",
+            ".promoSpotlightContainerGrey.expiredPromos"
+          ]
+        },
+        {
+          "name": "section-instant-savings",
+          "instances": [
+            ".stacked-offer"
+          ],
+          "section": "grey"
+        },
+        {
+          "name": "section-credit-offers",
+          "instances": [
+            ".greySection"
+          ],
+          "section": "grey"
+        },
+        {
+          "name": "section-expired-rebates",
+          "instances": [
+            ".promoSpotlightContainerGrey.expiredPromos"
+          ],
+          "section": "grey"
+        },
+        {
+          "name": "section-credit-details",
+          "instances": [
+            ".stacked-credit"
+          ],
+          "section": "grey"
+        }
+      ],
+      "sections": [
+        {
+          "id": "section-1",
+          "name": "Page intro (breadcrumbs + H1 + shop CTAs)",
+          "selector": ".toplevelpage",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "h1"
+          ]
+        },
+        {
+          "id": "section-2",
+          "name": "$130 Instant Savings promo banner",
+          "selector": ".stacked-offer",
+          "style": "grey",
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-3",
+          "name": "Sign In for Instant Savings — 3 numbered steps",
+          "selector": ".content__content___3VFmv > .AEM-content > .AEM-flex:has(.AEM-numbered-step)",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-4",
+          "name": "Two-up instant savings promo cards",
+          "selector": ".promoSpotlightContainer.containerXF",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-5",
+          "name": "Discount Tire credit card offers",
+          "selector": ".greySection",
+          "style": "grey",
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-6",
+          "name": "Feature cards: Low Price / Confidence / Promise",
+          "selector": ".low-price-experience",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-8",
+          "name": "Easy, convenient financing",
+          "selector": ".hp-financing__container",
+          "style": null,
+          "blocks": [
+            "columns-split"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-9",
+          "name": "Price Reductions — single card",
+          "selector": ".price-reduction-card",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-10",
+          "name": "Rebates by mail — 3 numbered steps",
+          "selector": ".cmp-experiencefragment--main-promotions-landing-page-content .AEM-flex",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": [
+            "h2"
+          ]
+        },
+        {
+          "id": "section-11",
+          "name": "Two-up rebate promo cards",
+          "selector": ".rebatePromoSpotlightBox",
+          "style": null,
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-12",
+          "name": "Expired Rebates card grid",
+          "selector": ".promoSpotlightContainerGrey.expiredPromos",
+          "style": "grey",
+          "blocks": [
+            "cards-promo"
+          ],
+          "defaultContent": [
+            "h3"
+          ]
+        },
+        {
+          "id": "section-13",
+          "name": "Credit card details + perks",
+          "selector": ".stacked-credit",
+          "style": "grey",
+          "blocks": [
+            "columns-split",
+            "cards-promo"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "section-14",
+          "name": "Legal disclosure",
+          "selector": ".disclaimer-text",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "p"
+          ]
+        }
+      ]
+    },
+    {
       "name": "homepage",
       "urls": [
         "https://www.americastire.com"
