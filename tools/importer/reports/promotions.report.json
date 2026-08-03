@@ -1,0 +1,33 @@
+{
+  "status": "success",
+  "url": "https://www.discounttire.com/promotions",
+  "path": "promotions",
+  "timestamp": "2026-07-29T18:56:49.046Z",
+  "title": "Tire Deals Near Me | Best Tire Deals | Wheel Deals | Discount Tire",
+  "template": "promotions",
+  "blocks": [
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "columns-split",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo",
+    "cards-promo"
+  ]
+}

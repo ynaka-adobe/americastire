@@ -1,0 +1,40 @@
+{
+  "variantName": "cards-promo",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-29T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.discounttire.com/promotions",
+    "originPage": "Discount Tire promotions/deals landing page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "promo-deal-cards",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "brand logo + product image + heading + date range + description + CTA + action links",
+    "buttonCount": 1,
+    "imageCount": 2
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "promotional offer cards (instant savings, rebates)",
+      "brand-badged deal cards with dates and CTAs",
+      "rebate card grids with download/submit links",
+      "numbered how-it-works step grids",
+      "icon + text detail/perk item rows"
+    ],
+    "notSuitableFor": [
+      "plain service cards without brand logos or dates (use cards-service)",
+      "rotating single-slide promotional carousels (use carousel-deals)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/promotions"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-29T00:00:00.000Z"
+  }
+}
