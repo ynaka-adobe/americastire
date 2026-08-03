@@ -1,0 +1,35 @@
+# Site page index for /query-index.json (used by the search block).
+# Production: pushed to AEM Config Service at
+#   POST https://admin.hlx.page/config/ynaka-adobe/sites/americastire/content/query.yaml
+# Local dev: `aem up --print-index` may use block-collection format; production uses Config Service schema below.
+indices:
+  search:
+    target: /query-index.json
+    include:
+      - /**
+    exclude:
+      - "**/fragments/**"
+      - "**/drafts/**"
+      - "**/modals/**"
+      - "/docs/**"
+      - "/nav"
+      - "/footer"
+      - "/placeholders"
+      - "**/*.json"
+      - "**/*.plain.html"
+    properties:
+      title:
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:title"]
+      date:
+        value: attribute(el, "content")
+        selectFirst: meta[name="publication-date"]
+      description:
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:description"]
+      image:
+        value: attribute(el, "content")
+        selectFirst: meta[property="og:image"]
+      robots:
+        value: attribute(el, "content")
+        selectFirst: meta[name="robots"]

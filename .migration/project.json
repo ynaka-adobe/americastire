@@ -1,11 +1,7 @@
 {
   "type": "da",
-  "sites": {
-    "americastire": {
-      "libraryUrl": "https://main--sta-boilerplate--aemdemos.aem.page/tools/sidekick/library.json",
-      "previewOrg": "ynaka-adobe",
-      "previewSite": "americastire",
-      "contentHostUrl": "https://content.da.live/ynaka-adobe/americastire/"
-    }
-  }
+  "libraryUrl": "https://main--americastire--ynaka-adobe.aem.live/tools/sidekick/config.json",
+  "previewOrg": "ynaka-adobe",
+  "previewSite": "americastire",
+  "contentHostUrl": "https://content.da.live/ynaka-adobe/americastire/"
 }

@@ -1,0 +1,22 @@
+{
+  "variantName": "tire-search",
+  "version": "1.0.0",
+  "created": "2026-06-06T00:00:00.000Z",
+  "purpose": "Tire product search results page — reads /fragments/tire-index.json and filters by ?text= query",
+  "contentPattern": {
+    "rows": 1,
+    "columns": 1,
+    "column1": "optional link to tire index JSON override (default /fragments/tire-index.json)"
+  },
+  "sourceContext": {
+    "originUrl": "https://www.discounttire.com/search?text=michelin",
+    "originPage": "search"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "/search page",
+      "tire catalog demo",
+      "product search results"
+    ]
+  }
+}

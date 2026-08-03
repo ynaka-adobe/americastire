@@ -1,4 +1,26 @@
+/**
+ * "Shop Tires Your Way" dual-panel layout (or author `columns-split (shop-your-way)`).
+ * @param {Element} block
+ */
+function applyShopYourWayVariant(block) {
+  if (block.classList.contains('shop-your-way')) return;
+  const wrapper = block.parentElement;
+  const prev = wrapper?.previousElementSibling;
+  if (!prev) return;
+  let heading = null;
+  if (prev.classList?.contains('default-content-wrapper')) {
+    heading = prev.querySelector('h1, h2, h3, h4, h5, h6');
+  } else if (/^H[1-6]$/i.test(prev.tagName)) {
+    heading = prev;
+  }
+  if (!heading) return;
+  if (/shop\s+tires\s+your\s+way/i.test(heading.textContent.trim())) {
+    block.classList.add('shop-your-way');
+  }
+}
+
 export default function decorate(block) {
+  applyShopYourWayVariant(block);
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-split-${cols.length}-cols`);
 
@@ -38,7 +60,7 @@ export default function decorate(block) {
     });
   });
 
-  if (cols.length === 2) {
+  if (cols.length === 2 && !block.classList.contains('shop-your-way')) {
     const row = block.firstElementChild;
     const divider = document.createElement('div');
     divider.classList.add('columns-split-divider');
@@ -46,4 +68,40 @@ export default function decorate(block) {
     divider.textContent = 'OR';
     row.insertBefore(divider, row.children[1]);
   }
+
+  if (block.classList.contains('shop-your-way')) {
+    const treadwellList = block.querySelector(':scope > div > div:first-child ul:first-of-type');
+    treadwellList?.querySelectorAll(':scope > li').forEach((li) => {
+      const next = li.textContent.replace(/^\s*\d+/, '').trim();
+      if (next) li.textContent = next;
+    });
+    ensureShopYourWayLeftHero(block);
+  }
+}
+
+/**
+ * Left "Treadwell" card: show hero cutout (repo image or `window.hlx.shopYourWayHeroImage`)
+ * and wrap remaining nodes so copy sits beside the figure.
+ * @param {Element} block
+ */
+function ensureShopYourWayLeftHero(block) {
+  const leftCol = block.querySelector(':scope > div > div:first-child');
+  if (!leftCol || leftCol.querySelector(':scope > .columns-split-hero')) return;
+
+  const hero = document.createElement('div');
+  hero.className = 'columns-split-hero';
+  const img = document.createElement('img');
+  const prefix = window.hlx?.codeBasePath || '';
+  img.src = window.hlx?.shopYourWayHeroImage || `${prefix}/images/shop-your-way-treadwell-hero.png`;
+  img.alt = '';
+  img.loading = 'lazy';
+  hero.append(img);
+  leftCol.prepend(hero);
+
+  const stack = document.createElement('div');
+  stack.className = 'columns-split-left-stack';
+  while (hero.nextSibling) {
+    stack.append(hero.nextSibling);
+  }
+  leftCol.append(stack);
 }

@@ -9,6 +9,7 @@
     "id": "section",
     "components": [
       "accordion",
+      "alert",
       "cards",
       "carousel",
       "columns",
@@ -16,11 +17,16 @@
       "fragment",
       "form",
       "hero",
+      "hero-promo-black-thin",
+      "hero-promo-brand-split",
       "image",
       "quote",
       "search",
+      "tire-search",
+      "shop-by-brand",
       "tabs",
       "table",
+      "target-offer",
       "text",
       "video",
       "product-recommendations"
@@ -59,6 +65,12 @@
     "components": [
       "text",
       "image"
+    ]
+  },
+  {
+    "id": "shop-by-brand",
+    "components": [
+      "shop-by-brand-item"
     ]
   },
   {

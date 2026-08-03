@@ -12,6 +12,10 @@
  * governing permissions and limitations under the License.
  */
 
+html {
+  overflow-x: clip;
+}
+
 :root {
   /* body sizes */
   --body-font-size-m: 16px;
@@ -85,6 +89,7 @@ h1 {
   font-weight: 900;
   text-transform: uppercase;
   color: var(--text-color);
+  margin-bottom: 20px;
 }
 
 h2 { font-size: var(--heading-font-size-xl); }
@@ -213,6 +218,49 @@ main a.button.secondary:hover {
   text-decoration: none;
 }
 
+/* Schedule a Service Appointment — red outline, white fill, red label */
+main a.button.button-schedule-service:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius);
+  padding: 12px 24px;
+  font-weight: 700;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: center;
+  white-space: normal;
+}
+
+main a.button.button-schedule-service:hover:any-link {
+  background-color: #fff;
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  text-decoration: none;
+}
+
+/* Stack + center Schedule CTA and View All Services */
+main .schedule-services-ctas {
+  text-align: center;
+  margin: 1em 0;
+}
+
+main .schedule-services-ctas .button-container {
+  display: block;
+  margin: 0 0 12px;
+}
+
+main .schedule-services-ctas > p:not(.button-container) {
+  margin: 0;
+}
+
+main .schedule-services-ctas > p:not(.button-container) a:any-link {
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
 main img {
   max-width: 100%;
   width: auto;
@@ -256,4 +304,12 @@ main .section.dark {
 main .section.light {
   background-color: var(--color-light);
   padding: 40px 16px;
+}
+
+aem-sidekick {
+  opacity: 0;
+}
+
+aem-sidekick[open="true"].is-ready {
+  opacity: 1;
 }

@@ -12,7 +12,11 @@
     "colorScheme": "light",
     "density": "compact",
     "purpose": "service-cards",
-    "imagePattern": "large"
+    "imagePattern": "large",
+    "variants": {
+      "category": "250×175 tile, 125×125 image top, label below — use block class `category` or place under heading 'Shop by Category'",
+      "service": "266×246 tile, copy top / photo bottom, grey border — use block class `service` or blocks after heading 'Life of Tire Services Included with Every Tire Purchase'"
+    }
   },
   "contentPattern": {
     "structure": "image + heading + description + CTA link",

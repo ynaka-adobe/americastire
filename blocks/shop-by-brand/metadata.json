@@ -1,0 +1,34 @@
+{
+  "variantName": "shop-by-brand",
+  "baseBlock": "shop-by-brand",
+  "version": "1.0.0",
+  "created": "2026-06-06T00:00:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.discounttire.com",
+    "originPage": "homepage",
+    "sourceSelector": ".AEM-hp-shopByBrand",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "light",
+    "density": "compact",
+    "purpose": "brand-logo-grid",
+    "imagePattern": "circular-tiles"
+  },
+  "contentPattern": {
+    "structure": "heading + brand logo links in circular tiles",
+    "buttonCount": 0,
+    "imageCount": "1 per brand"
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "homepage brand discovery",
+      "tire brand landing pages",
+      "navigation shortcuts to brand PLPs"
+    ],
+    "notSuitableFor": [
+      "detailed brand storytelling",
+      "single featured brand hero"
+    ]
+  }
+}

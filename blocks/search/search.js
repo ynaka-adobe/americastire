@@ -83,6 +83,21 @@ export async function fetchData(source) {
   return json.data;
 }
 
+/**
+ * @param {Record<string, unknown>} result
+ */
+function isIndexableResult(result) {
+  const robots = String(result.robots || '').toLowerCase();
+  return !robots.includes('noindex');
+}
+
+/**
+ * @param {Record<string, unknown>[]} data
+ */
+function indexableResults(data) {
+  return data.filter(isIndexableResult);
+}
+
 function renderResult(result, searchTerms, titleTag) {
   const li = document.createElement('li');
   const a = document.createElement('a');
@@ -188,9 +203,14 @@ function filterData(searchTerms, data) {
   ].map((item) => item.result);
 }
 
+function getSiteSearchQuery() {
+  return searchParams.get('q') || searchParams.get('text') || '';
+}
+
 async function handleSearch(e, block, config) {
   const searchValue = e.target.value;
   searchParams.set('q', searchValue);
+  searchParams.delete('text');
   if (window.history.replaceState) {
     const url = new URL(window.location.href);
     url.search = searchParams.toString();
@@ -203,7 +223,7 @@ async function handleSearch(e, block, config) {
   }
   const searchTerms = searchValue.toLowerCase().split(/\s+/).filter((term) => !!term);
 
-  const data = await fetchData(config.source);
+  const data = indexableResults(await fetchData(config.source) || []);
   const filteredData = filterData(searchTerms, data);
   await renderResults(block, config, filteredData, searchTerms);
 }
@@ -253,15 +273,31 @@ function searchBox(block, config) {
 export default async function decorate(block) {
   const placeholders = await fetchPlaceholders();
   const source = block.querySelector('a[href]') ? block.querySelector('a[href]').href : '/query-index.json';
+  const onContentSearch = /\/content-search\/?$/.test(window.location.pathname);
+  if (onContentSearch && !block.classList.contains('minimal')) {
+    block.classList.add('minimal');
+  }
+  const pagePlaceholders = onContentSearch
+    ? {
+      ...placeholders,
+      searchPlaceholder: placeholders.contentSearchPlaceholder
+        || placeholders.searchPlaceholder
+        || 'Search site content...',
+      searchNoResults: placeholders.contentSearchNoResults
+        || placeholders.searchNoResults
+        || 'No pages found.',
+    }
+    : placeholders;
   block.innerHTML = '';
   block.append(
-    searchBox(block, { source, placeholders }),
+    searchBox(block, { source, placeholders: pagePlaceholders }),
     searchResultsContainer(block),
   );
 
-  if (searchParams.get('q')) {
+  const initialQuery = getSiteSearchQuery();
+  if (initialQuery) {
     const input = block.querySelector('input');
-    input.value = searchParams.get('q');
+    input.value = initialQuery;
     input.dispatchEvent(new Event('input'));
   }
 

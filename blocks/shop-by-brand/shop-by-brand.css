@@ -1,0 +1,117 @@
+/* Block: shop-by-brand — Discount Tire .AEM-hp-shopByBrand logo grid */
+
+main > .section.shop-by-brand-container > div {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+
+main > .section.shop-by-brand-container > .default-content-wrapper:has(+ .shop-by-brand-wrapper) {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+
+main > .section.shop-by-brand-container > .default-content-wrapper:has(+ .shop-by-brand-wrapper) :is(h1, h2, h3) {
+  margin: 1.95rem 0 1.69rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: #333;
+}
+
+.shop-by-brand > :is(h1, h2, h3, h4, h5, h6) {
+  margin: 1.95rem 0 1.69rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  color: #333;
+}
+
+.shop-by-brand.has-section-heading > ul {
+  margin-top: 0;
+}
+
+.shop-by-brand > ul {
+  --shop-by-brand-tile: 9.375rem;
+  --shop-by-brand-logo: 8.5625rem;
+
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5%;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0 0 2rem;
+  box-sizing: border-box;
+}
+
+.shop-by-brand > ul > li {
+  flex: 0 0 var(--shop-by-brand-tile);
+  width: var(--shop-by-brand-tile);
+  min-width: var(--shop-by-brand-tile);
+  max-width: var(--shop-by-brand-tile);
+  margin: 0;
+  padding: 0;
+}
+
+.shop-by-brand > ul > li > a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--shop-by-brand-tile);
+  height: var(--shop-by-brand-tile);
+  border-radius: 50%;
+  background: #f8f8f8;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.shop-by-brand > ul > li > a picture,
+.shop-by-brand > ul > li > a img,
+.shop-by-brand > ul > li > a svg {
+  display: block;
+  width: var(--shop-by-brand-logo);
+  height: var(--shop-by-brand-logo);
+  max-width: var(--shop-by-brand-logo);
+  max-height: var(--shop-by-brand-logo);
+  object-fit: contain;
+}
+
+.shop-by-brand-fallback {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.15;
+  color: #333;
+  padding: 0 0.5rem;
+}
+
+@media (width >= 900px) {
+  .shop-by-brand > ul {
+    margin-left: 4.25rem;
+    margin-right: 4.25rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .shop-by-brand > ul > li > a {
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .shop-by-brand > ul > li > a:hover,
+  .shop-by-brand > ul > li > a:focus-visible {
+    background: #fff;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 12%);
+  }
+}

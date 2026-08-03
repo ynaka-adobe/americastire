@@ -7,18 +7,11 @@
  * Source: https://www.americastire.com (homepage) + https://www.discounttire.com/promotions
  * Generated: 2026-05-21 | Extended: 2026-07-29
  *
- * Handles the following instance patterns (each parser call receives one matched element):
- * Homepage:
- *  1. Credit card promo banner (.home-dtcc-promo-container-class) - image left, text+link right
- *  2. Split entry (.split-entry) - two panels with image/description/CTA separated by OR
- *  3. Treadwell layout (.treadwell-layout) - tire guide card left, size search card right
- *  4. Financing container (.hp-financing__container) - two financing option cards side by side
- * Promotions page:
- *  5. Stacked offer (.stacked-offer) - product offer column + credit-card offer column
- *  6. Grey section (.greySection) - heading + two-column image/text split (or financing container)
- *  7. Stacked credit (.stacked-credit) - credit card image column + savings text column
- *
- * Selectors verified against migration-work/cleaned.html (under <main>).
+ * Handles four instance patterns:
+ * 1. Credit card promo banner (.home-dtcc-promo-container-class) - single row (1 col) for dark banner styling
+ * 2. Split entry (.split-entry) - two panels with image/description/CTA separated by OR
+ * 3. Treadwell layout (.treadwell-layout) - tire guide card left, size search card right
+ * 4. Financing container (.hp-financing__container) - two financing option cards side by side
  */
 export default function parse(element, { document }) {
   const cells = [];
@@ -37,7 +30,8 @@ export default function parse(element, { document }) {
     const link = element.querySelector('.home-dtcc-promo-text-class__link a');
     if (link) textCol.push(link);
 
-    cells.push([imageCol, textCol]);
+    const singleCol = [...imageCol, ...textCol];
+    cells.push([singleCol]);
   }
 
   // Pattern 2: Split entry (Shop Products OR Schedule Service)

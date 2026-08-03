@@ -53,7 +53,8 @@ var CustomImportScript = (() => {
       if (promoText) textCol.push(promoText);
       const link = element.querySelector(".home-dtcc-promo-text-class__link a");
       if (link) textCol.push(link);
-      cells.push([imageCol, textCol]);
+      const singleCol = [...imageCol, ...textCol];
+      cells.push([singleCol]);
     } else if (element.classList.contains("split-entry")) {
       const leftCol = [];
       const rightCol = [];

@@ -535,11 +535,26 @@ function buildBlock(blockName, content) {
  * Loads JS and CSS for a block.
  * @param {Element} block The block element
  */
+/** Page metadata table — stripped server-side; remove if still in HTML. */
+const PAGE_METADATA_BLOCK = 'metadata';
+
+/** Not AEM blocks — layout wrappers or server-only markup (no blocks/name/name.js). */
+const SKIP_BLOCK_MODULES = new Set([PAGE_METADATA_BLOCK]);
+
 async function loadBlock(block) {
   const status = block.dataset.blockStatus;
   if (status !== 'loading' && status !== 'loaded') {
-    block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
+    if (blockName === PAGE_METADATA_BLOCK) {
+      block.closest('.section')?.remove();
+      block.dataset.blockStatus = 'loaded';
+      return block;
+    }
+    if (SKIP_BLOCK_MODULES.has(blockName)) {
+      block.dataset.blockStatus = 'loaded';
+      return block;
+    }
+    block.dataset.blockStatus = 'loading';
     try {
       const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
       const decorationComplete = new Promise((resolve) => {
@@ -591,7 +606,15 @@ function decorateBlock(block) {
  * @param {Element} main The container element
  */
 function decorateBlocks(main) {
-  main.querySelectorAll('div.section > div > div').forEach(decorateBlock);
+  main.querySelectorAll('div.section > div > div').forEach((block) => {
+    const name = block.classList[0];
+    if (name === PAGE_METADATA_BLOCK) {
+      block.closest('.section')?.remove();
+      return;
+    }
+    if (SKIP_BLOCK_MODULES.has(name)) return;
+    decorateBlock(block);
+  });
 }
 
 /**

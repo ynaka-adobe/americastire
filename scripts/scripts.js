@@ -16,6 +16,49 @@ import {
   toClassName,
   toCamelCase,
 } from './aem.js';
+import {
+  applyDocumentBrandTweaks,
+  applySiteBrandToSubtree,
+  expandBrandTokensInSubtree,
+  registerSiteBrandOnWindow,
+} from './brand.js';
+import { registerDemoDateOnWindow, syncDemoDateFromUrl } from './demo-date.js';
+import { decorateDynamicMedia } from './utils/dynamic-media.js';
+import { upgradePromoSchedulerLinks } from './promo-scheduler.js';
+import ENV from './utils/env.js';
+import {
+  applyTargetHeroMboxIfConfigured,
+  isUePreviewHost,
+  loadTarget,
+} from './target.js';
+
+syncDemoDateFromUrl();
+
+/** Block roots whose <picture> must not be stolen for synthetic .hero (see buildHeroBlock). */
+const AUTO_HERO_SKIP_PICTURE = [
+  '.alert', '.hero-promo', '.columns-split', '.cards-service', '.shop-by-brand', '.carousel-deals',
+  '.cards', '.columns', '.carousel', '.fragment', '.accordion', '.accordion-faq',
+  '.embed', '.video', '.quote', '.table', '.tabs',
+].join(',');
+
+/**
+ * First <picture> in main before h1, not inside a known block (e.g. alert strip).
+ * @param {Element} main
+ * @param {Element} h1
+ * @returns {HTMLPictureElement|null}
+ */
+function findAutoHeroPicture(main, h1) {
+  const pics = main.querySelectorAll('picture');
+  for (let i = 0; i < pics.length; i += 1) {
+    const pic = pics[i];
+    // eslint-disable-next-line no-bitwise
+    const precedes = (h1.compareDocumentPosition(pic) & Node.DOCUMENT_POSITION_PRECEDING) !== 0;
+    if (precedes && !pic.closest(AUTO_HERO_SKIP_PICTURE)) {
+      return pic;
+    }
+  }
+  return null;
+}
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -23,7 +66,7 @@ import {
  */
 function buildHeroBlock(main) {
   const h1 = main.querySelector('h1');
-  const picture = main.querySelector('picture');
+  const picture = h1 ? findAutoHeroPicture(main, h1) : null;
   // eslint-disable-next-line no-bitwise
   if (h1 && picture && (h1.compareDocumentPosition(picture) & Node.DOCUMENT_POSITION_PRECEDING)) {
     const section = document.createElement('div');
@@ -121,17 +164,48 @@ function decorateSections(main) {
 }
 
 /**
+ * "Schedule a Service Appointment" → outlined red button
+ * (distinct from other /schedule-appointment links).
+ * @param {Element} main
+ */
+function decorateScheduleServiceAppointmentCTA(main) {
+  const label = 'Schedule a Service Appointment';
+  main.querySelectorAll('a[href*="schedule-appointment"]').forEach((a) => {
+    if (a.textContent.trim() !== label) return;
+    if (a.closest('.schedule-services-ctas')) return;
+    a.classList.add('button', 'button-schedule-service');
+    const p1 = a.parentElement;
+    if (p1?.tagName === 'P' && p1.childElementCount === 1 && p1.firstElementChild === a) {
+      p1.classList.add('button-container');
+    }
+    const p2 = p1?.nextElementSibling;
+    if (p2?.tagName !== 'P') return;
+    const nextLink = p2.querySelector(':scope > a[href*="services"]');
+    if (!nextLink || p2.childElementCount !== 1 || nextLink !== p2.firstElementChild) return;
+    // Class the content wrapper — not a new div (avoids false block decoration).
+    const group = p1.parentElement;
+    if (group?.classList.contains('schedule-services-ctas')) return;
+    group?.classList.add('schedule-services-ctas');
+  });
+}
+
+/**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main) {
+  // Render Dynamic Media links (Content Advisor with image.type=link) as images before
+  // button decoration, so DM asset links are not turned into CTAs.
+  decorateDynamicMedia(main);
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  decorateScheduleServiceAppointmentCTA(main);
   decorateBlocks(main);
+  expandBrandTokensInSubtree(main);
 }
 
 /**
@@ -139,6 +213,9 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
+  applyDocumentBrandTweaks(doc);
+  registerSiteBrandOnWindow();
+  registerDemoDateOnWindow();
   doc.documentElement.lang = 'en';
   decorateTemplateAndTheme();
   if (getMetadata('breadcrumbs').toLowerCase() === 'true') {
@@ -172,13 +249,20 @@ async function loadLazy(doc) {
 
   const main = doc.querySelector('main');
   await loadSections(main);
+  await upgradePromoSchedulerLinks(main);
+  applySiteBrandToSubtree(main);
+  expandBrandTokensInSubtree(main);
 
   const { hash } = window.location;
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  await loadHeader(doc.querySelector('header'));
+  await loadFooter(doc.querySelector('footer'));
+  applySiteBrandToSubtree(doc.querySelector('header'));
+  applySiteBrandToSubtree(doc.querySelector('footer'));
+  expandBrandTokensInSubtree(doc.querySelector('header'));
+  expandBrandTokensInSubtree(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
@@ -194,6 +278,10 @@ function loadDelayed() {
 }
 
 async function loadSidekick() {
+  if (ENV !== 'prod') {
+    import('../tools/scheduler/scheduler.js');
+  }
+
   if (document.querySelector('aem-sidekick')) {
     import('./sidekick.js');
     return;
@@ -204,15 +292,17 @@ async function loadSidekick() {
   });
 }
 
-async function loadPage() {
+export async function loadPage() {
+  await loadTarget();
   await loadEager(document);
   await loadLazy(document);
+  await applyTargetHeroMboxIfConfigured();
   loadDelayed();
   loadSidekick();
 }
 
 // UE Editor support before page load
-if (/\.(stage-ue|ue)\.da\.live$/.test(window.location.hostname)) {
+if (isUePreviewHost()) {
   // eslint-disable-next-line import/no-unresolved
   await import(`${window.hlx.codeBasePath}/ue/scripts/ue.js`).then(({ default: ue }) => ue());
 }
@@ -223,10 +313,15 @@ loadPage();
   const { searchParams } = new URL(window.location.href);
 
   const lp = searchParams.get('dapreview');
-  // eslint-disable-next-line import/no-unresolved
-  if (lp) import('https://da.live/scripts/dapreview.js').then((mod) => mod.default(loadPage));
+  if (lp) {
+    import('../tools/da/da.js').then((mod) => mod.default(loadPage));
+  }
 
   const exp = searchParams.get('daexperiment');
   // eslint-disable-next-line import/no-unresolved
   if (exp) import('https://da.live/nx/public/plugins/exp/exp.js');
+
+  if (searchParams.has('quick-edit')) {
+    import('../tools/quick-edit/quick-edit.js').then((mod) => mod.default());
+  }
 }());

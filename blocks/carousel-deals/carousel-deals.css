@@ -209,6 +209,88 @@ main .carousel-deals .carousel-deals-slide .carousel-deals-slide-content .button
   border-color: var(--text-color);
 }
 
+/*
+ * Footer CTA ("See All Current Deals") — white button, red border, uppercase, centered.
+ * decorateSections() moves non-div nodes after the block into a sibling .default-content-wrapper,
+ * so the link is usually NOT a direct child of .carousel-deals (see .carousel-deals-wrapper + …).
+ */
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper,
+.carousel-deals > p,
+.carousel-deals > .button-container {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  padding: 20px 16px 0;
+  text-align: center;
+}
+
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > p,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container,
+.carousel-deals > p,
+.carousel-deals > .button-container {
+  margin: 0;
+  width: auto;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  text-align: center;
+}
+
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > p > a:any-link,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container a.button:any-link,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container a:any-link,
+.carousel-deals > p > a:any-link,
+.carousel-deals > .button-container a.button:any-link,
+.carousel-deals > .button-container a:any-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 48px;
+  padding: 10px 28px;
+  background-color: #fff;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 900;
+  font-family: var(--body-font-family);
+  text-decoration: none;
+  text-transform: uppercase;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > p > a:any-link:hover,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container a.button:any-link:hover,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container a:any-link:hover,
+.carousel-deals > p > a:any-link:hover,
+.carousel-deals > .button-container a.button:any-link:hover,
+.carousel-deals > .button-container a:any-link:hover {
+  background-color: #fff;
+  color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  text-decoration: none;
+}
+
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > p > a:any-link:focus-visible,
+.section.carousel-deals-container > .carousel-deals-wrapper + .default-content-wrapper > .button-container a:any-link:focus-visible,
+.carousel-deals > p > a:any-link:focus-visible,
+.carousel-deals > .button-container a:any-link:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 /* stylelint-disable no-descending-specificity */
 
 /* Navigation arrow buttons */

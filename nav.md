@@ -1,4 +1,4 @@
-- [![America's Tire](/icons/logo.svg)](/)
+- [![America's Tire logo](https://cdn.discounttire.com/sys-master/images/hc7/h2e/8808331149342/AT_logo.svg)](/)
 
 ---
 
